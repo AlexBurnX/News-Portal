@@ -1,0 +1,19 @@
+<!-- Наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'flatpages/default.html' %}
+
+<!-- Подключение фильтра для цензурирования плохих слов -->
+{% load censor_filter %}
+
+<!-- Название Post -->
+{% block title %}
+Post
+{% endblock title %}
+
+<!-- Контент страницы -->
+{% block content %}
+<br>
+<h2 align="left">{{ post.title|censor }}</h2>
+<p align="left" style="color: #828236">{{ post.dateCreation|date:'d.m.Y' }}</p>
+<hr>
+<p align="left">{{ post.text|censor }}</p>
+{% endblock content %}

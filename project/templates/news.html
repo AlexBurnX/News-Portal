@@ -1,0 +1,46 @@
+<!--  Наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'flatpages/default.html' %}
+
+<!-- Подключение фильтра для цензурирования плохих слов -->
+{% load censor_filter %}
+
+<!-- Название News -->
+{% block title %}
+News
+{% endblock title %}
+
+<!-- Контент страницы -->
+{% block content %}
+<br>
+<h2>Все новости</h2>
+<h4>«{{ news|length }}»</h4>
+<hr>
+    {% if news %}
+
+<!--        <table>-->
+<!--            {% for post in news %}-->
+<!--            <tr>-->
+<!--                <td><b>{{ post.title }}</b></td>-->
+<!--                <td>({{ post.dateCreation|date:'d.m.Y' }})</td>-->
+<!--                <td>{{ post.text|truncatewords:20 }}</td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <td colspan="3"><hr></td>-->
+<!--            </tr>-->
+<!--            {% endfor %}-->
+<!--        </table>-->
+
+        <ol style="list-style-type: none; margin-left: 0; padding-left: 0">
+            {% for post in news %}
+            <li align="left">
+                <b>{{ post.title|censor }} •
+                (<span style="color: #318CE7">{{ post.dateCreation|date:'d.m.Y' }}</span>)</b><br>
+                {{ post.text|truncatewords:20|censor }}<hr>
+            </li>
+            {% endfor %}
+        </ol>
+
+    {% else %}
+        <h2>Новостей нет!</h2>
+    {% endif %}
+{% endblock content %}
