@@ -1,4 +1,6 @@
 from django.db import models
+from django.core.validators import MinValueValidator
+from django.urls import reverse
 from django.contrib.auth.models import User
 from django.db.models import Sum
 
@@ -20,12 +22,28 @@ class Author(models.Model):
         self.ratingAuthor = pRat * 3 + cRat
         self.save()
 
+    class Meta:
+        verbose_name = 'Автор'
+        verbose_name_plural = 'Авторы'
+
 
 class Category(models.Model):
-    name = models.CharField(max_length=64, unique=True)
+    name = models.CharField(max_length=64,
+                            unique=True,
+                            verbose_name='Название')
+    description = models.TextField(null=True,
+                                   blank=True,
+                                   verbose_name='Описание',
+                                   help_text='здесь может быть более '
+                                             'подробное описание')
 
     def __str__(self):
-        return f'{self.name.title()}'
+        return f'{self.name}'
+
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
+        ordering = ['name']  # Сортировка
 
 
 class Post(models.Model):
@@ -58,12 +76,23 @@ class Post(models.Model):
         return f'{self.text[:124]}...'
 
     def __str__(self):
-        return f'{self.title.title()}: {self.text[:50]}'
+        return f'{self.title.title()} :: {self.text[:40]}...'
+
+    def get_absolute_url(self):
+        return reverse('post_detail', args=[str(self.id)])
+
+    class Meta:
+        verbose_name = 'Пост'
+        verbose_name_plural = 'Посты'
 
 
 class PostCategory(models.Model):
     postThrough = models.ForeignKey(Post, on_delete=models.CASCADE)
     categoryThrough = models.ForeignKey(Category, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Категория поста'
+        verbose_name_plural = 'Категории постов'
 
 
 class Comment(models.Model):
@@ -80,3 +109,7 @@ class Comment(models.Model):
     def dislike(self):
         self.rating -= 1
         self.save()
+
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'

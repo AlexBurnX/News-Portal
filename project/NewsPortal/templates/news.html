@@ -1,0 +1,55 @@
+{% extends 'flatpages/default.html' %}
+
+{% load censor_filter %}
+{% load custom_tags %}
+
+{% block title %}
+News
+{% endblock title %}
+
+
+{% block content %}
+<br>
+<h2>Все новости</h2>
+<h6>на странице «{{ news|length }}»</h6>
+<hr>
+    {% if news %}
+
+        <ol style="list-style-type: none; margin-left: 0; padding-left: 0">
+            {% for post in news %}
+            <li align="left">
+                <a class="nav-item" href="{% url 'post_detail' post.id %}">{{ post.title|censor }}</a>
+                • <span style="color: #828236">{{ post.dateCreation|date:'d.m.Y' }}</span><br>
+                {{ post.text|truncatechars:150|censor }}
+            </li>
+            <li><br></li>
+            {% endfor %}
+        </ol>
+
+    {% else %}
+        <h2>Новостей нет!</h2>
+    {% endif %}
+
+    <!-- Пагинация -->
+    {# Информация о предыдущих страницах #}
+    {% if page_obj.has_previous %}
+        <a href="?{% url_replace page=1 %}">1</a>
+        {% if page_obj.previous_page_number != 1 %}
+            ...
+            <a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+        {% endif %}
+    {% endif %}
+
+    {# Информация о текущей странице #}
+    {{ page_obj.number }}
+
+    {# Информация о следующих страницах #}
+    {% if page_obj.has_next %}
+        <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+        {% if paginator.num_pages != page_obj.next_page_number %}
+            ...
+            <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+        {% endif %}
+    {% endif %}
+
+{% endblock content %}

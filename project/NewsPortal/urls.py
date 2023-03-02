@@ -1,16 +1,24 @@
 from django.urls import path
-# Импортируем созданные нами представления
-from .views import PostList, PostDetail
+from .views import *
 
 
+# Ссылки второго уровня
 urlpatterns = [
-   # path — означает путь.
-   # В данном случае путь ко всем товарам у нас останется пустым.
-   # Т.к. наше объявленное представление является классом,
-   # а Django ожидает функцию, нам надо представить этот класс в виде view.
-   # Для этого вызываем метод as_view.
-   path('', PostList.as_view()),
-   # pk — это первичный ключ товара, который будет выводиться у нас в шаблон
-   # int — указывает на то, что принимаются только целочисленные значения
-   path('<int:pk>', PostDetail.as_view()),
+   path('', index),
+   path('chat/', PostList.as_view()),
+   path('contacts/', PostList.as_view()),
+   path('about/', PostList.as_view()),
+
+   path('news/', PostList.as_view(), name='post_list'),
+   path('news/<int:pk>', PostDetail.as_view(), name='post_detail'),
+   path('news/search/', PostSearch.as_view(), name='post_search'),
+
+   path('news/create/', PostCreate.as_view(), name='post_create'),
+   path('news/<int:pk>/edit/', PostEdit.as_view(), name='post_edit'),
+   path('news/<int:pk>/delete/', PostDelete.as_view(), name='post_delete'),
+
+   path('articles/', PostList.as_view(), name='art_list'),
+   path('articles/create/', PostCreate.as_view(), name='art_create'),
+   path('articles/<int:pk>/edit/', PostEdit.as_view(), name='art_edit'),
+   path('articles/<int:pk>/delete/', PostDelete.as_view(), name='art_delete'),
 ]
