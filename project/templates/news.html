@@ -13,13 +13,41 @@ News
 <h2>Все новости</h2>
 <h6>на странице «{{ news|length }}»</h6>
 <hr>
+
+    {% if not is_author and not perms.NewsPortal.add_post %}
+    <div align="center">
+    <button type="button">
+        <a class="nav-link-button" href="{% url 'account_upgrade' %}">
+        <strong>Стать автором новых постов!</strong></a>
+    </button></div>
+    <br>
+    {% endif %}
+
+    {% if perms.NewsPortal.add_post %}
+    <div align="left">
+        <a class="add-news" href="{% url 'post_create' %}">Создать новый пост</a>
+    </div>
+    <br>
+    {% endif %}
+
     {% if news %}
 
         <ol style="list-style-type: none; margin-left: 0; padding-left: 0">
             {% for post in news %}
             <li align="left">
-                <a class="nav-item" href="{% url 'post_detail' post.id %}">{{ post.title|censor }}</a>
-                • <span style="color: #828236">{{ post.dateCreation|date:'d.m.Y' }}</span><br>
+                <a class="nav-item" href="{% url 'post_detail' post.id %}">
+                    {{ post.title|censor }}</a>
+                <span style="color: red">•</span>
+                <span style="color: #828236">{{ post.dateCreation|date:'d.m.Y' }}</span>
+                {% if perms.NewsPortal.change_post %}
+                &nbsp;
+                <a class="edit-news" href="{% url 'post_edit' pk=post.id %}">Изменить</a>
+                {% endif %}
+                {% if perms.NewsPortal.delete_post %}
+                <span style="color: #828236">/</span>
+                <a class="del-news" href="{% url 'post_delete' post.id %}">Удалить</a>
+                {% endif %}
+                <br>
                 {{ post.text|truncatechars:150|censor }}
             </li>
             <li><br></li>
