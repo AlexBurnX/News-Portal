@@ -13,14 +13,18 @@ News
 <h2>Все новости</h2>
 <h6>на странице «{{ news|length }}»</h6>
 <hr>
-
-    {% if not is_author and not perms.NewsPortal.add_post %}
-    <div align="center">
-    <button type="button">
-        <a class="nav-link-button" href="{% url 'account_upgrade' %}">
-        <strong>Стать автором новых постов!</strong></a>
-    </button></div>
-    <br>
+    {% if request.user.is_authenticated %}
+        {% if not is_author and not perms.NewsPortal.add_post %}
+        <div align="center">
+            <button type="button">
+                <a class="nav-link-button" href="{% url 'account_upgrade' %}">
+                <strong>Стать автором новых постов!</strong></a>
+            </button>
+        </div>
+        <br>
+        {% endif %}
+    {% else %}
+        <br>
     {% endif %}
 
     {% if perms.NewsPortal.add_post %}

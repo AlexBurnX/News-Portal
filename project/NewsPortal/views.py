@@ -32,7 +32,8 @@ def upgrade_user(request):
     group = Group.objects.get(name='authors')
     if not user.groups.filter(name='authors').exists():
         group.user_set.add(user)
-        Author.objects.create(authorUser=User.objects.get(pk=user.id))
+        if not Author.objects.filter(authorUser=user).exists():
+            Author.objects.create(authorUser=User.objects.get(pk=user.id))
 
     return redirect('/news/')
 
@@ -104,7 +105,6 @@ class PostDelete(PermissionRequiredMixin, DeleteView):
     model = Post
     template_name = 'post_delete.html'
     success_url = reverse_lazy('post_list')
-
 
 # def post_create(request):
 #     form = PostEditForm()
