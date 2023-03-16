@@ -13,7 +13,11 @@ Post
 {% block content %}
 <br>
 <h2 align="left">{{ post.title|censor }}</h2>
-<p align="left" style="color: #828236">{{ post.dateCreation|date:'d.m.Y' }}</p>
+<p align="left">
+    <small class="fw-bold" style="color: #828236">{{ post.dateCreation|date:'d.m.Y' }} </small>
+    <span style="color: red">•</span>
+    <small class="text-muted">(автор: {{ post.author }})</small>
+</p>
 <hr>
 <p align="left">{{ post.text|censor }}</p>
 {% endblock content %}

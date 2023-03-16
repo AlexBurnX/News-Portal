@@ -1,8 +1,9 @@
 from django.db import models
+from django.db.models import Sum
 from django.core.validators import MinValueValidator
 from django.urls import reverse
 from django.contrib.auth.models import User
-from django.db.models import Sum
+from datetime import datetime
 
 
 class Author(models.Model):
@@ -31,22 +32,26 @@ class Author(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=64,
-                            unique=True,
+    name = models.CharField(max_length=64, unique=True,
                             verbose_name='Название')
-    description = models.TextField(null=True,
-                                   blank=True,
-                                   verbose_name='Описание',
-                                   help_text='здесь может быть более '
-                                             'подробное описание')
-
-    def __str__(self):
-        return f'{self.name}'
+    description = models.TextField(
+        null=True, blank=True, verbose_name='Описание',
+        help_text='здесь может быть более подробное описание'
+    )
+    subscribers = models.ManyToManyField(
+        User, related_name='categories', blank=True,
+        verbose_name='Подписчики',
+        help_text='Удерживайте нажатой «CTRL» или «Command» на Mac, '
+                  'чтобы выбрать более одного.'
+    )
 
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
         ordering = ['name']  # Сортировка
+
+    def __str__(self):
+        return f'{self.name}'
 
 
 class Post(models.Model):
@@ -82,7 +87,8 @@ class Post(models.Model):
         return f'{self.title.title()} :: {self.text[:40]}...'
 
     def get_absolute_url(self):
-        return reverse('post_detail', args=[str(self.id)])
+        # return reverse('post_detail', args=[str(self.id)])
+        return f'/news/{self.id}'
 
     class Meta:
         verbose_name = 'Пост'
@@ -96,6 +102,9 @@ class PostCategory(models.Model):
     class Meta:
         verbose_name = 'Категория поста'
         verbose_name_plural = 'Категории постов'
+
+    def __str__(self):
+        return f'{self.categoryThrough.name} | {self.postThrough.title}'
 
 
 class Comment(models.Model):
@@ -116,3 +125,21 @@ class Comment(models.Model):
     class Meta:
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
+
+    def __str__(self):
+        dateCreation = f'{self.dateCreation:%d.%m.%Y}'
+        return f'{self.commentUser} ({dateCreation}) :: {self.text}'
+
+
+# Subscription
+class Subscriber(models.Model):
+    user = models.ForeignKey(
+        to=User,
+        on_delete=models.CASCADE,
+        related_name='subscriptions',
+    )
+    category = models.ForeignKey(
+        to='Category',
+        on_delete=models.CASCADE,
+        related_name='subscriptions',
+    )

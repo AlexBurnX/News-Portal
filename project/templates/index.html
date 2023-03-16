@@ -7,11 +7,18 @@ Index
 {% csrf_token %}
 
 {% block content %}
+
 <title>Home | {{ title }}</title>
 <br>
 <h2>Home (index test)</h2>
 <h5>для обзора новостей перейдите в раздел "<a href="/news/">News</a>"</h5>
 <hr>
+
+{% if user.is_authenticated %}
+    <h4 style="color: #879496">Hello {{ user }}</h4>
+    <br>
+{% endif %}
+
 {% for x in posts %}
     {% if name in x.title %}
         <p align="left" style="color:red">{{ x.title }}</p>
@@ -20,10 +27,5 @@ Index
     {% endif %}
 {% endfor %}
 <hr>
-
-<!-- Этот блок будет виден только авторизированным пользователям -->
-{% if user.is_authenticated %}
-<h4>Hello User</h4>
-{% endif %}
 
 {% endblock content %}

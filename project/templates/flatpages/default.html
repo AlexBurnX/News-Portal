@@ -51,14 +51,19 @@
                <div align="right">
                    <ul class="navbar-nav ml-auto">
                        {% if not request.user.is_authenticated %}
-                           <li>
+                           <li class="nav-item">
                                <a class="btn btn-outline-secondary" href="/accounts/signup/">Регистрация</a>
                            </li>
-                           <li>
+                           <li class="nav-item"></li>>
+                           <li class="nav-item">
                                <a class="nav-link" href="/accounts/login/">Войти</a>
                            </li>
                        {% else %}
-                           <li>
+                           <li class="nav-item">
+                               <a class="nav-link" href="#">{{ user }}</a>
+                           </li>
+                           <li class="nav-item"></li>>
+                           <li class="nav-item">
                                <a class="btn btn-outline-secondary" href="/accounts/logout/">Выйти</a>
                            </li>
                        {% endif %}

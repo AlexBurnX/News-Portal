@@ -11,8 +11,9 @@ News
 {% block content %}
 <br>
 <h2>Все новости</h2>
-<h6>на странице «{{ news|length }}»</h6>
+<small class="fw-bold" style="color: #879496">всего «{{ page_obj.paginator.count }}»</small>
 <hr>
+
     {% if request.user.is_authenticated %}
         {% if not is_author and not perms.NewsPortal.add_post %}
         <div align="center">
@@ -28,8 +29,8 @@ News
     {% endif %}
 
     {% if perms.NewsPortal.add_post %}
-    <div align="left">
-        <a class="add-news" href="{% url 'post_create' %}">Создать новый пост</a>
+    <div align="center">
+        <a class="btn btn-secondary btn-sm" href="{% url 'post_create' %}">Создать пост</a>
     </div>
     <br>
     {% endif %}
@@ -40,21 +41,29 @@ News
             {% for post in news %}
             <li align="left">
                 <a class="nav-item" href="{% url 'post_detail' post.id %}">
-                    {{ post.title|censor }}</a>
-                <span style="color: red">•</span>
-                <span style="color: #828236">{{ post.dateCreation|date:'d.m.Y' }}</span>
+                    {{ post.title|truncatechars:80|censor }}</a>&nbsp;
+                <small class="text-muted" style="color: #A7ADB9">|</small>
+                <small class="fw-bold" style="color: #879496">
+                    {% for category in post.postCategory.all %}
+                    <a style="color: #879496" href="{% url 'category_list' category.id %}">{{ category }}</a>
+                    {% endfor %}
+                </small>
+                <small class="text-muted" style="color: #A7ADB9">|</small>
+                <small class="fw-bold" style="color: #828236">{{ post.dateCreation|date:'d.m.Y' }} </small>
+                <!-- <small class="text-muted" style="color: #A7ADB9">|</small>-->
+                <!-- <small class="text-muted">(автор: {{ post.author }})</small>-->
                 {% if perms.NewsPortal.change_post %}
-                &nbsp;
+                <span style="color: red">•</span>
                 <a class="edit-news" href="{% url 'post_edit' pk=post.id %}">Изменить</a>
                 {% endif %}
                 {% if perms.NewsPortal.delete_post %}
-                <span style="color: #828236">/</span>
+                <span style="color: #A7ADB9">|</span>
                 <a class="del-news" href="{% url 'post_delete' post.id %}">Удалить</a>
                 {% endif %}
                 <br>
-                {{ post.text|truncatechars:150|censor }}
+                <p>{{ post.text|truncatechars:150|censor }}</p>
             </li>
-            <li><br></li>
+            <li></li>
             {% endfor %}
         </ol>
 

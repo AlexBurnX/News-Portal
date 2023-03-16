@@ -3,28 +3,34 @@
 {% load censor_filter %}
 {% load custom_tags %}
 
+{% block title %}
+Category List
+{% endblock title %}
+
+
 {% block content %}
 <br>
-<h2>Поиск новостей</h2>
+<h2>Все новости</h2>
+<small class="fw-bold" style="color: #879496">всего «{{ page_obj.paginator.count }}»</small>
 <hr>
-<div align="center">
-    <form action="" method="get">
-        {{ filterset.form.as_p }}
-        <input type="submit" value="Найти" />
-    </form>
-</div>
-<hr>
-    {% if news %}
+
+    {% if is_not_subscriber and request.user.is_authenticated %}
+    <div align="center">
+        <a href="{% url 'subscribe' category.id %}" class="btn btn-secondary btn-sm">Подписаться</a>
+    </div>
+    {% endif %}
+    <br>
+    {% if category_news_list %}
 
         <ol style="list-style-type: none; margin-left: 0; padding-left: 0">
-            {% for post in news %}
+            {% for post in category_news_list %}
             <li align="left">
                 <a class="nav-item" href="{% url 'post_detail' post.id %}">
                     {{ post.title|truncatechars:80|censor }}</a>&nbsp;
                 <small class="text-muted" style="color: #A7ADB9">|</small>
                 <small class="fw-bold" style="color: #879496">
                     {% for category in post.postCategory.all %}
-                        {{ category }}
+                    <a style="color: #879496" href="{% url 'category_list' category.id %}">{{ category }}</a>
                     {% endfor %}
                 </small>
                 <small class="text-muted" style="color: #A7ADB9">|</small>
@@ -47,8 +53,7 @@
         </ol>
 
     {% else %}
-        <br>
-        <h5 style="color: #879496">Ничего не найдено. Попробуйте использовать другие параметры для поиска.</h5>
+        <h2>Новостей нет!</h2>
     {% endif %}
 
     <!-- Пагинация -->

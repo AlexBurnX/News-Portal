@@ -1,8 +1,11 @@
 from django import forms
 from allauth.account.forms import SignupForm
-from django.contrib.auth.models import Group, Permission
+from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+from django.template.loader import render_to_string
+from django.core.mail import (
+    EmailMultiAlternatives, send_mail, mail_managers, mail_admins
+)
 
 
 class CustomSignupForm(SignupForm):
@@ -11,13 +14,39 @@ class CustomSignupForm(SignupForm):
         reg_group_users = Group.objects.get(name="users")
         user.groups.add(reg_group_users)
 
-        # authors = Group.objects.get(name='authors')
-        # perm = Permission.objects.get(name='Can add post')
-        # authors.permissions.add(perm)
-        # perm = Permission.objects.get(name='Can change post')
-        # authors.permissions.change(perm)
-        # perm = Permission.objects.get(name='Can delete post')
-        # authors.permissions.delete(perm)
+        # Отправить обычное письмо зарегистрированному пользователю
+        # send_mail(
+        #     subject='Добро пожаловать в наш интернет-магазин!',
+        #     message=f'{user.username}, вы успешно зарегистрировались!',
+        #     from_email=None,
+        #     recipient_list=[user.email],
+        # )
+
+        # Отправить "text/html" письмо зарегистрированному пользователю
+        subject = 'Добро пожаловать в наш интернет-магазин!'
+        text = f'{user.username}, вы успешно зарегистрировались на сайте!'
+        html = render_to_string('registration/reg_greet.html',
+                                context={'username': user.username})
+        msg = EmailMultiAlternatives(
+            subject=subject, body=text, from_email=None, to=[user.email]
+        )
+        msg.attach_alternative(html, 'text/html')
+        msg.send()
+
+        # Отправить сообщение всем менеджерам о новом пользователе
+        # mail_managers(
+        #     subject='Новый пользователь!',
+        #     message=f'Пользователь "{user.username}" {user.email} '
+        #             f'- зарегистрировался на сайте.'
+        # )
+
+        # Отправить сообщение всем администраторам о новом пользователе
+        # mail_admins(
+        #     subject='Новый пользователь!',
+        #     message=f'Пользователь "{user.username}" {user.email} '
+        #             f'- зарегистрировался на сайте.',
+        #     html_message=None
+        # )
 
         return user
 
