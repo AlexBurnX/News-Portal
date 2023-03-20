@@ -124,7 +124,7 @@ class PostSearch(ListView):
         return context
 
 
-class PostCreate(PermissionRequiredMixin, CreateView):
+class PostCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     permission_required = ('NewsPortal.add_post',)
     # raise_exception = True
     form_class = PostEditForm
@@ -141,21 +141,21 @@ class PostCreate(PermissionRequiredMixin, CreateView):
     #     return super().form_valid(form)
 
 
-class PostEdit(PermissionRequiredMixin, UpdateView):
+class PostEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     permission_required = ('NewsPortal.change_post',)
     form_class = PostEditForm
     model = Post
     template_name = 'post_edit.html'
 
 
-class PostDelete(PermissionRequiredMixin, DeleteView):
+class PostDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     permission_required = ('NewsPortal.delete_post',)
     model = Post
     template_name = 'post_delete.html'
     success_url = reverse_lazy('post_list')
 
 
-class CategoryListView(ListView):
+class CategoryListView(PostList):
     model = Post
     template_name = 'category_list.html'
     context_object_name = 'category_news_list'

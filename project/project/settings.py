@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -164,17 +166,19 @@ ACCOUNT_EMAIL_SUBJECT_PREFIX = ''
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_SUBJECT_PREFIX = ''
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
-EMAIL_HOST_USER = 'news-portal1'
-EMAIL_HOST_PASSWORD = 'hawrdumrkitazfyq'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER') # Введите свой хост юзера
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  # Введите свой пароль
 
-EMAIL_SUBJECT_PREFIX = ''
-DEFAULT_FROM_EMAIL = 'news-portal1@yandex.ru'
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')  # Введите свой емайл
+SERVER_EMAIL = os.getenv('SERVER_EMAIL')  # Введите свой емайл
 
-SERVER_EMAIL = 'news-portal1@yandex.ru'
+SITE_URL = os.getenv('SITE_URL')  # Введите свою ссылку
+
 MANAGERS = (
     ('Ivan', 'ivan@yandex.ru'),
     ('Serg', 'serg@yandex.ru'),
@@ -182,8 +186,6 @@ MANAGERS = (
 ADMINS = (
     ('Alex', 'admin@news-portal.ru'),
 )
-
-SITE_URL = 'http://127.0.0.1:8000'
 
 APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
 APSCHEDULER_RUN_NOW_TIMEOUT = 25
