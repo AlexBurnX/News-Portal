@@ -7701,8 +7701,8 @@ textarea.form-control-lg {
   font-size: 0.83em;
 }
 .news-category {
-  color: #879496;
-  font-weight: 600;
+  color: #879DA0;
+  font-weight: 700;
   text-decoration: none;
   font-family: sans-serif;
   font-size: 0.98em;
@@ -7839,10 +7839,15 @@ textarea.form-control-lg {
   color: rgba(var(--bs-body-color-rgb), var(--bs-text-opacity)) !important;
 }
 
-.text-muted {
+.text-preview {
   --bs-text-opacity: 1;
   color: #6c757d !important;
-  font-size: 0.92em;
+  font-size: 0.91em;
+}
+.text-muted {
+  --bs-text-opacity: 1;
+  color: #34383C !important;
+  font-size: 1em;
 }
 
 .text-black-50 {

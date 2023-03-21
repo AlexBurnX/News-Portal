@@ -13,7 +13,7 @@ Post
 {% block content %}
 
 <br>
-<h3 align="left">{{ post.title|censor }}</h3>
+<h3 align="left" style="color: #23364B">{{ post.title|censor }}</h3>
 <p align="left">
     <small class="news-date">{{ post.dateCreation|date:'d.m.Y' }} </small>
     <span style="color: #879496">•</span>
@@ -30,6 +30,8 @@ Post
     <br>
 {% endif %}
 
-<p align="left">{{ post.text|censor }}</p>
+<div align="left">
+    <p class="text-muted">{{ post.text|censor }}</p>
+</div>
 
 {% endblock content %}

@@ -11,7 +11,7 @@ Category List
 {% block content %}
 <br>
 <h2>Все новости категории «{{ category }}»</h2>
-<p class="text-muted">Всего:
+<p class="text-preview">Всего:
     <span style="color: #DC3545">{{ page_obj.paginator.count }}</span>
 </p>
 <hr>
@@ -49,7 +49,7 @@ Category List
                     {% endfor %}
                 </small>
                 <br>
-                <p class="text-muted">{{ post.text|truncatechars:150|censor }}</p>
+                <p class="text-preview">{{ post.text|truncatechars:150|censor }}</p>
             </li>
             <li><hr class="news-hr"></li>
             {% endfor %}
