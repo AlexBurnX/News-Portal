@@ -11,7 +11,9 @@ News
 {% block content %}
 <br>
 <h2>Все новости</h2>
-<small class="fw-bold" style="color: #879496">всего «{{ page_obj.paginator.count }}»</small>
+<p class="text-muted">Всего:
+    <span style="color: #DC3545">{{ page_obj.paginator.count }}</span>
+</p>
 <hr>
 
     {% if request.user.is_authenticated %}
@@ -41,7 +43,7 @@ News
                 <span style="color: #879496">•</span>
                 <small class="news-author">({{ post.author }})</small>
                 {% if perms.NewsPortal.change_post %}
-                <span style="color: red">•</span>
+                <span style="color: #DC3545">•</span>
                 <a class="edit-news" href="{% url 'post_edit' pk=post.id %}">Изменить</a>
                 {% endif %}
                 {% if perms.NewsPortal.delete_post %}
@@ -59,7 +61,7 @@ News
                     {% endfor %}
                 </small>
                 <br>
-                <p>{{ post.text|truncatechars:150|censor }}</p>
+                <p class="text-muted">{{ post.text|truncatechars:150|censor }}</p>
             </li>
             <li><hr class="news-hr"></li>
             {% endfor %}

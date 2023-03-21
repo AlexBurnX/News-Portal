@@ -7709,8 +7709,8 @@ textarea.form-control-lg {
 }
 .news-hr {
   color: #B4C5C8;
-  font-weight: 100;
-  font-size: 0.1em;
+  padding: 0px 0px;
+  margin: -5px 0px 5px 0px;
 }
 
 .fw-bolder {
@@ -7842,6 +7842,7 @@ textarea.form-control-lg {
 .text-muted {
   --bs-text-opacity: 1;
   color: #6c757d !important;
+  font-size: 0.92em;
 }
 
 .text-black-50 {

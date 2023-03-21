@@ -23,7 +23,7 @@
                 <span style="color: #879496">•</span>
                 <small class="news-author">({{ post.author }})</small>
                 {% if perms.NewsPortal.change_post %}
-                <span style="color: red">•</span>
+                <span style="color: #DC3545">•</span>
                 <a class="edit-news" href="{% url 'post_edit' pk=post.id %}">Изменить</a>
                 {% endif %}
                 {% if perms.NewsPortal.delete_post %}
@@ -41,7 +41,7 @@
                     {% endfor %}
                 </small>
                 <br>
-                <p>{{ post.text|truncatechars:150|censor }}</p>
+                <p class="text-muted">{{ post.text|truncatechars:150|censor }}</p>
             </li>
             <li><hr class="news-hr"></li>
             {% endfor %}

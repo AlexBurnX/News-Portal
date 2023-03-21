@@ -11,7 +11,9 @@ Category List
 {% block content %}
 <br>
 <h2>Все новости категории «{{ category }}»</h2>
-<small class="fw-bold" style="color: #879496">всего «{{ page_obj.paginator.count }}»</small>
+<p class="text-muted">Всего:
+    <span style="color: #DC3545">{{ page_obj.paginator.count }}</span>
+</p>
 <hr>
 
     {% if is_not_subscriber and request.user.is_authenticated %}
@@ -29,7 +31,7 @@ Category List
                 <span style="color: #879496">•</span>
                 <small class="news-author">({{ post.author }})</small>
                 {% if perms.NewsPortal.change_post %}
-                <span style="color: red">•</span>
+                <span style="color: #DC3545">•</span>
                 <a class="edit-news" href="{% url 'post_edit' pk=post.id %}">Изменить</a>
                 {% endif %}
                 {% if perms.NewsPortal.delete_post %}
@@ -43,11 +45,11 @@ Category List
                 <small class="text-muted" style="color: #A7ADB9">|</small>
                 <small class="fw-bold" style="color: #879496">
                     {% for category in post.postCategory.all %}
-                    <a class="news-category" style="color: #879496" href="{% url 'category_list' category.id %}">{{ category }}</a>
+                    <a class="news-category" href="{% url 'category_list' category.id %}">{{ category }}</a>
                     {% endfor %}
                 </small>
                 <br>
-                <p>{{ post.text|truncatechars:150|censor }}</p>
+                <p class="text-muted">{{ post.text|truncatechars:150|censor }}</p>
             </li>
             <li><hr class="news-hr"></li>
             {% endfor %}
