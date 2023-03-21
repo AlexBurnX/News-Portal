@@ -19,18 +19,9 @@
         <ol style="list-style-type: none; margin-left: 0; padding-left: 0">
             {% for post in news %}
             <li align="left">
-                <a class="nav-item" href="{% url 'post_detail' post.id %}">
-                    {{ post.title|truncatechars:80|censor }}</a>&nbsp;
-                <small class="text-muted" style="color: #A7ADB9">|</small>
-                <small class="fw-bold" style="color: #879496">
-                    {% for category in post.postCategory.all %}
-                        {{ category }}
-                    {% endfor %}
-                </small>
-                <small class="text-muted" style="color: #A7ADB9">|</small>
-                <small class="fw-bold" style="color: #828236">{{ post.dateCreation|date:'d.m.Y' }} </small>
-                <!-- <small class="text-muted" style="color: #A7ADB9">|</small>-->
-                <!-- <small class="text-muted">(автор: {{ post.author }})</small>-->
+                <small class="news-date">{{ post.dateCreation|date:'d.m.Y' }} </small>
+                <span style="color: #879496">•</span>
+                <small class="news-author">({{ post.author }})</small>
                 {% if perms.NewsPortal.change_post %}
                 <span style="color: red">•</span>
                 <a class="edit-news" href="{% url 'post_edit' pk=post.id %}">Изменить</a>
@@ -39,10 +30,20 @@
                 <span style="color: #A7ADB9">|</span>
                 <a class="del-news" href="{% url 'post_delete' post.id %}">Удалить</a>
                 {% endif %}
+            </li>
+            <li align="left">
+                <a class="nav-item" href="{% url 'post_detail' post.id %}">
+                    {{ post.title|truncatechars:80|censor }}</a>&nbsp;
+                <small class="text-muted" style="color: #A7ADB9">|</small>
+                <small class="fw-bold" style="color: #879496">
+                    {% for category in post.postCategory.all %}
+                    <a class="news-category" href="{% url 'category_list' category.id %}">{{ category }}</a>
+                    {% endfor %}
+                </small>
                 <br>
                 <p>{{ post.text|truncatechars:150|censor }}</p>
             </li>
-            <li></li>
+            <li><hr class="news-hr"></li>
             {% endfor %}
         </ol>
 
@@ -52,24 +53,25 @@
     {% endif %}
 
     <!-- Пагинация -->
-    {# Информация о предыдущих страницах #}
+
+    <!-- Информация о предыдущих страницах -->
     {% if page_obj.has_previous %}
-        <a href="?{% url_replace page=1 %}">1</a>
+        <a class="btn btn-outline-dark btn-sm" href="?{% url_replace page=1 %}">1</a>
         {% if page_obj.previous_page_number != 1 %}
             ...
-            <a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+            <a class="btn btn-outline-dark btn-sm" href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
         {% endif %}
     {% endif %}
 
-    {# Информация о текущей странице #}
-    {{ page_obj.number }}
+    <!-- Информация о текущей странице -->
+    <a class="btn btn-danger btn-sm" href="?{% url_replace page=page_obj.number %}">{{ page_obj.number }}</a>
 
-    {# Информация о следующих страницах #}
+    <!--  Информация о следующих страницах -->
     {% if page_obj.has_next %}
-        <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+        <a class="btn btn-outline-dark btn-sm" href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
         {% if paginator.num_pages != page_obj.next_page_number %}
             ...
-            <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+            <a class="btn btn-outline-dark btn-sm" href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
         {% endif %}
     {% endif %}
 

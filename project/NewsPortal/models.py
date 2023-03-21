@@ -50,6 +50,12 @@ class Category(models.Model):
         verbose_name_plural = 'Категории'
         ordering = ['name']  # Сортировка
 
+    def subscribe(self):
+        pass
+
+    def get_category(self):
+        return f'{self.name}'
+
     def __str__(self):
         return f'{self.name}'
 

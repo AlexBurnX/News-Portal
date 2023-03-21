@@ -11,13 +11,25 @@ Post
 
 <!-- Контент страницы -->
 {% block content %}
+
 <br>
-<h2 align="left">{{ post.title|censor }}</h2>
+<h3 align="left">{{ post.title|censor }}</h3>
 <p align="left">
-    <small class="fw-bold" style="color: #828236">{{ post.dateCreation|date:'d.m.Y' }} </small>
-    <span style="color: red">•</span>
-    <small class="text-muted">(автор: {{ post.author }})</small>
+    <small class="news-date">{{ post.dateCreation|date:'d.m.Y' }} </small>
+    <span style="color: #879496">•</span>
+    <small class="news-author">({{ post.author }})</small>
 </p>
 <hr>
+{% if request.user.is_authenticated and perms.NewsPortal.add_post %}
+    <div align="left">
+        <a class="btn btn-outline-success btn-sm" href="{% url 'post_edit' pk=post.id %}">
+            Изменить</a>
+        <a class="btn btn-outline-danger btn-sm" href="{% url 'post_delete' post.id %}">
+            Удалить</a>
+    </div>
+    <br>
+{% endif %}
+
 <p align="left">{{ post.text|censor }}</p>
+
 {% endblock content %}
