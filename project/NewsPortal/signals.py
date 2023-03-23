@@ -4,26 +4,7 @@ from django.dispatch import receiver
 from django.template.loader import render_to_string
 
 from .models import PostCategory
-
-
-def send_notifications(preview, pk, title, subscribers):
-    html_content = render_to_string(
-        'post_created_email.html',
-        {
-            'text': preview,
-            'link': f'http://127.0.0.1:8000/news/{pk}'
-        }
-    )
-
-    for email in subscribers:
-        msg = EmailMultiAlternatives(
-            subject=title,
-            body='',
-            from_email=None,
-            to=[email],
-        )
-        msg.attach_alternative(html_content, "text/html")
-        msg.send()
+from .tasks import new_post_notification
 
 
 @receiver(m2m_changed, sender=PostCategory)
@@ -36,9 +17,30 @@ def notify_about_new_post(sender, instance, **kwargs):
 
         subscribers = [s.email for s in subscribers]
 
-        send_notifications(
+        new_post_notification(
             instance.preview(), instance.pk, instance.title, subscribers
         )
+
+
+# def send_notifications(preview, pk, title, subscribers):
+#     html_content = render_to_string(
+#         'post_created_email.html',
+#         {
+#             'text': preview,
+#             'link': f'http://127.0.0.1:8000/news/{pk}'
+#         }
+#     )
+#
+#     for email in subscribers:
+#         msg = EmailMultiAlternatives(
+#             subject=title,
+#             body='',
+#             from_email=None,
+#             to=[email],
+#         )
+#         msg.attach_alternative(html_content, "text/html")
+#         msg.send()
+
 
 # from django.contrib.auth.models import User
 # from django.core.mail import EmailMultiAlternatives

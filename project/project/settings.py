@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-_bz4n(-lj@6!*bc)rzz7hkir%j7py9s#@1t2ci+)u$9-aeo!5d'
+SECRET_KEY = os.getenv('SECRET_KEY')  # Введите свой ключ
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -119,7 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -164,20 +164,23 @@ ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = None
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
 ACCOUNT_EMAIL_SUBJECT_PREFIX = ''
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# else:
+#     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 EMAIL_SUBJECT_PREFIX = ''
-EMAIL_HOST = 'smtp.yandex.ru'
-EMAIL_PORT = 465
+EMAIL_HOST = os.getenv('EMAIL_HOST')  # Укажите свой хост почты
+EMAIL_PORT = int(os.getenv('EMAIL_PORT'))  # Укажите свой порт почты
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER') # Введите свой хост юзера
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  # Введите свой пароль
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER') # Укажите свой хост юзера
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  # Укажите свой пароль
 
-DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')  # Введите свой емайл
-SERVER_EMAIL = os.getenv('SERVER_EMAIL')  # Введите свой емайл
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')  # Укажите свой емайл
+SERVER_EMAIL = os.getenv('SERVER_EMAIL')  # Укажите свой емайл
 
-SITE_URL = os.getenv('SITE_URL')  # Введите свою ссылку
+SITE_URL = os.getenv('SITE_URL')  # Укажите свою ссылку
 
 MANAGERS = (
     ('Ivan', 'ivan@yandex.ru'),
@@ -189,3 +192,9 @@ ADMINS = (
 
 APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
 APSCHEDULER_RUN_NOW_TIMEOUT = 25
+
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')  # Укажите свои данные
+CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'

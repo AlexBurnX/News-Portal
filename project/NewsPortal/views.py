@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import (
     LoginRequiredMixin, PermissionRequiredMixin
 )
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import (
     ListView, DetailView, CreateView, UpdateView, DeleteView
 )
@@ -16,6 +17,25 @@ from django.contrib.auth.models import Group
 from .filters import PostFilter
 from .models import *
 from .forms import *
+# from .tasks import hello, printer
+
+
+# class IndexView(View):
+#     def get(self, request):
+#         printer.delay(10)
+#         hello.delay()
+#         return HttpResponse('Hello!')
+
+
+def index(request):
+    posts = Post.objects.all()
+    # Словарь для передачи данных в шаблон страницы
+    context = {
+        'posts': posts,
+        'name': 'Microsoft',
+        'title': 'Index'
+    }
+    return render(request, 'index.html', context=context)
 
 
 @login_required
@@ -56,22 +76,12 @@ def subscriptions(request):
 def subscribe(request, pk):
     user = request.user
     category = Category.objects.get(id=pk)
-    category.subscribers.add(user)
 
-    message = 'Вы успешно подписались на рассылку новостей категории'
-    return render(request, 'subscribe.html',
-                  {'category': category, 'message': message})
-
-
-def index(request):
-    posts = Post.objects.all()
-    # Словарь для передачи данных в шаблон страницы
-    context = {
-        'posts': posts,
-        'name': 'Microsoft',
-        'title': 'Index'
-    }
-    return render(request, 'index.html', context=context)
+    if not category.subscribers.filter(id=user.id).exists():
+        category.subscribers.add(user)
+        message = 'Вы успешно подписались на рассылку новостей категории'
+        return render(request, 'subscribe.html',
+                      {'category': category, 'message': message})
 
 
 @login_required
