@@ -17,14 +17,6 @@ from django.contrib.auth.models import Group
 from .filters import PostFilter
 from .models import *
 from .forms import *
-# from .tasks import hello, printer
-
-
-# class IndexView(View):
-#     def get(self, request):
-#         printer.delay(10)
-#         hello.delay()
-#         return HttpResponse('Hello!')
 
 
 def index(request):

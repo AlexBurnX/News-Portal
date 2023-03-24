@@ -9,6 +9,7 @@ from NewsPortal.models import Post, Category
 
 @shared_task
 def new_post_notification_email(title, email, html_content):
+    time.sleep(3)
     print(f'----------------------------------------')
     print(f'Письмо отправлено на "{email}"')
     print(f'----------------------------------------')
@@ -49,16 +50,3 @@ def weekly_news_mailer():
         msg.send()
         print(f'Email: {email}')
         print(html_content)
-
-
-# @shared_task
-# def hello():
-#     time.sleep(10)
-#     print('Hello, world!')
-#
-#
-# @shared_task
-# def printer(N):
-#     for i in range(N):
-#         time.sleep(1)
-#         print(i + 1)

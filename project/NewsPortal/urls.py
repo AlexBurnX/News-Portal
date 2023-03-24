@@ -4,7 +4,6 @@ from .views import *
 # Ссылки второго уровня
 urlpatterns = [
     path('', index),
-    # path('', IndexView.as_view()),
     path('chat/', PostList.as_view()),
     path('contacts/', PostList.as_view()),
     path('about/', PostList.as_view()),
