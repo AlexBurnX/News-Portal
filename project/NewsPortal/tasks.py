@@ -8,24 +8,18 @@ from NewsPortal.models import Post, Category
 
 
 @shared_task
-def new_post_notification(preview, pk, title, subscribers):
-    html_content = render_to_string(
-        'post_created_email.html',
-        {
-            'text': preview,
-            'link': f'http://127.0.0.1:8000/news/{pk}'
-        }
+def new_post_notification_email(title, email, html_content):
+    print(f'----------------------------------------')
+    print(f'Письмо отправлено на "{email}"')
+    print(f'----------------------------------------')
+    msg = EmailMultiAlternatives(
+        subject=title,
+        body='',
+        from_email=None,
+        to=[email],
     )
-
-    for email in subscribers:
-        msg = EmailMultiAlternatives(
-            subject=title,
-            body='',
-            from_email=None,
-            to=[email],
-        )
-        msg.attach_alternative(html_content, "text/html")
-        msg.send()
+    msg.attach_alternative(html_content, 'text/html')
+    msg.send()
 
 
 @shared_task

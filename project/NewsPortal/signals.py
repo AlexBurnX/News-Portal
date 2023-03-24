@@ -4,7 +4,7 @@ from django.dispatch import receiver
 from django.template.loader import render_to_string
 
 from .models import PostCategory
-from .tasks import new_post_notification
+from .tasks import new_post_notification_email
 
 
 @receiver(m2m_changed, sender=PostCategory)
@@ -16,10 +16,20 @@ def notify_about_new_post(sender, instance, **kwargs):
             subscribers += category.subscribers.all()
 
         subscribers = [s.email for s in subscribers]
+        preview = instance.preview()
+        pk = instance.pk
+        title = instance.title
 
-        new_post_notification.delay(
-            instance.preview(), instance.pk, instance.title, subscribers
+        html_content = render_to_string(
+            'post_created_email.html',
+            {
+                'text': preview,
+                'link': f'http://127.0.0.1:8000/news/{pk}'
+            }
         )
+
+        for email in subscribers:
+            new_post_notification_email.delay(title, email, html_content)
 
 
 # def send_notifications(preview, pk, title, subscribers):

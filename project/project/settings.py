@@ -183,13 +183,8 @@ SERVER_EMAIL = os.getenv('SERVER_EMAIL')  # Укажите свой емайл
 
 SITE_URL = os.getenv('SITE_URL')  # Укажите свою ссылку
 
-MANAGERS = (
-    ('Ivan', 'ivan@yandex.ru'),
-    ('Serg', 'serg@yandex.ru'),
-)
-ADMINS = (
-    ('Alex', 'admin@news-portal.ru'),
-)
+ADMINS = os.getenv('ADMINS')  # Укажите свою список администраторов
+MANAGERS = os.getenv('MANAGERS')  # Укажите свой список менеджеров
 
 APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
 APSCHEDULER_RUN_NOW_TIMEOUT = 25
