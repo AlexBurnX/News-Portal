@@ -17,7 +17,7 @@ def notify_about_new_post(sender, instance, **kwargs):
 
         subscribers = [s.email for s in subscribers]
 
-        new_post_notification(
+        new_post_notification.delay(
             instance.preview(), instance.pk, instance.title, subscribers
         )
 

@@ -174,6 +174,7 @@ EMAIL_HOST = os.getenv('EMAIL_HOST')  # Укажите свой хост поч�
 EMAIL_PORT = int(os.getenv('EMAIL_PORT'))  # Укажите свой порт почты
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
+EMAIL_TIMEOUT = 60
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER') # Укажите свой хост юзера
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  # Укажите свой пароль
 
@@ -198,3 +199,5 @@ CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIME_ZONE = 'Europe/Moscow'
+CELERY_TASK_TIME_LIMIT = 30 * 60
