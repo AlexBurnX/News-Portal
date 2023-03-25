@@ -1,35 +1,37 @@
-from django.core.mail import EmailMultiAlternatives
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
+from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 
-from .models import PostCategory
-from .tasks import new_post_notification_email
+from NewsPortal.models import PostCategory
+from NewsPortal.tasks import new_post_notice_email
 
 
 @receiver(m2m_changed, sender=PostCategory)
 def notify_about_new_post(sender, instance, **kwargs):
     if kwargs['action'] == 'post_add':
-        categories = instance.postCategory.all()
-        subscribers: list[str] = []
-        for category in categories:
-            subscribers += category.subscribers.all()
+        new_post_notice_email.delay(instance.id)
 
-        subscribers = [s.email for s in subscribers]
-        preview = instance.preview()
-        pk = instance.pk
-        title = instance.title
-
-        html_content = render_to_string(
-            'post_created_email.html',
-            {
-                'text': preview,
-                'link': f'http://127.0.0.1:8000/news/{pk}'
-            }
-        )
-
-        for email in subscribers:
-            new_post_notification_email.delay(title, email, html_content)
+        # categories = instance.postCategory.all()
+        # subscribers: list[str] = []
+        # for category in categories:
+        #     subscribers += category.subscribers.all()
+        #
+        # subscribers = [s.email for s in subscribers]
+        # preview = instance.preview()
+        # pk = instance.pk
+        # title = instance.title
+        #
+        # html_content = render_to_string(
+        #     'post_created_email.html',
+        #     {
+        #         'text': preview,
+        #         'link': f'http://127.0.0.1:8000/news/{pk}'
+        #     }
+        # )
+        #
+        # for email in subscribers:
+        #     new_post_notice_email.delay(email, title, html_content)
 
 
 # def send_notifications(preview, pk, title, subscribers):
