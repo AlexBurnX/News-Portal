@@ -18,7 +18,11 @@ from .filters import PostFilter
 from .models import *
 from .forms import *
 
+from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 
+
+@cache_page(1 * 1)
 def index(request):
     posts = Post.objects.all()
     # Словарь для передачи данных в шаблон страницы
@@ -103,9 +107,22 @@ class PostList(ListView):
 
 
 class PostDetail(DetailView):
+    """
+    Детальное представление поста
+    """
     model = Post
     context_object_name = 'post'
     template_name = 'post.html'
+    queryset = Post.objects.all()
+
+    def get_object(self, *args, **kwargs):
+        obj = cache.get(f'post-{self.kwargs["pk"]}', None)
+
+        if not obj:
+            obj = super().get_object(queryset=self.queryset)
+            cache.set(f'post-{self.kwargs["pk"]}', obj)
+
+        return obj
 
 
 class PostSearch(ListView):

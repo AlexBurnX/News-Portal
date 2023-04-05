@@ -27,9 +27,9 @@ SECRET_KEY = os.getenv('SECRET_KEY')  # Введите свой ключ
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
-
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+ALLOWED_HOSTS = list(os.getenv('ALLOWED_HOSTS'))  # Установите свой список
 
 # Application definition
 
@@ -61,6 +61,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # Кэшировать весь сайт целиком
+    # 'django.middleware.cache.UpdateCacheMiddleware',
+    # 'django.middleware.common.CommonMiddleware',
+    # 'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -100,16 +105,20 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.'
+                'password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': 'django.contrib.auth.'
+                'password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': 'django.contrib.auth.'
+                'password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'django.contrib.auth.'
+                'password_validation.NumericPasswordValidator',
     },
 ]
 
@@ -175,7 +184,7 @@ EMAIL_PORT = int(os.getenv('EMAIL_PORT'))  # Укажите свой порт п
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 EMAIL_TIMEOUT = 60
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER') # Укажите свой хост юзера
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')  # Укажите свой хост юзера
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  # Укажите свой пароль
 
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')  # Укажите свой емайл
@@ -183,7 +192,7 @@ SERVER_EMAIL = os.getenv('SERVER_EMAIL')  # Укажите свой емайл
 
 SITE_URL = os.getenv('SITE_URL')  # Укажите свою ссылку
 
-ADMINS = os.getenv('ADMINS')  # Укажите свою список администраторов
+ADMINS = os.getenv('ADMINS')  # Укажите свой список администраторов
 MANAGERS = os.getenv('MANAGERS')  # Укажите свой список менеджеров
 
 APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
@@ -196,3 +205,11 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIME_ZONE = 'Europe/Moscow'
 CELERY_TASK_TIME_LIMIT = 30 * 60
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': os.path.join(BASE_DIR, 'cache_files'),
+        'TIMEOUT': 30,
+    }
+}
