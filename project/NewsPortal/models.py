@@ -29,37 +29,8 @@ class Author(models.Model):
         return f'{self.authorUser}'
 
     class Meta:
-        verbose_name = 'Автор'
-        verbose_name_plural = 'Авторы'
-
-
-class Category(models.Model):
-    name = models.CharField(max_length=64, unique=True,
-                            verbose_name='Название')
-    description = models.TextField(
-        null=True, blank=True, verbose_name='Описание',
-        help_text='здесь может быть более подробное описание'
-    )
-    subscribers = models.ManyToManyField(
-        User, related_name='categories', blank=True,
-        verbose_name='Подписчики',
-        help_text='Удерживайте нажатой «CTRL» или «Command» на Mac, '
-                  'чтобы выбрать более одного.'
-    )
-
-    class Meta:
-        verbose_name = 'Категория'
-        verbose_name_plural = 'Категории'
-        ordering = ['name']  # Сортировка
-
-    def subscribe(self):
-        pass
-
-    def get_category(self):
-        return f'{self.name}'
-
-    def __str__(self):
-        return f'{self.name}'
+        verbose_name = 'Author'
+        verbose_name_plural = 'Authors'
 
 
 class Post(models.Model):
@@ -68,17 +39,21 @@ class Post(models.Model):
     NEWS = 'NW'
     ARTICLE = 'AR'
     CATEGORY_CHOICES = (
-        (NEWS, 'Новость'),
-        (ARTICLE, 'Статья'),
+        (NEWS, 'News'),
+        (ARTICLE, 'Article'),
     )
     categoryType = models.CharField(max_length=2,
                                     choices=CATEGORY_CHOICES,
                                     default=NEWS)
     dateCreation = models.DateTimeField(auto_now_add=True)
-    postCategory = models.ManyToManyField(Category, through='PostCategory')
+    postCategory = models.ManyToManyField('Category', through='PostCategory')
     title = models.CharField(max_length=128)
     text = models.TextField()
     rating = models.SmallIntegerField(default=0)
+
+    @property
+    def likes(self):
+        return self.rating
 
     def like(self):
         self.rating += 1
@@ -103,17 +78,46 @@ class Post(models.Model):
         cache.delete(f'post-{self.pk}')
 
     class Meta:
-        verbose_name = 'Пост'
-        verbose_name_plural = 'Посты'
+        verbose_name = 'Post'
+        verbose_name_plural = 'Posts'
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=64, unique=True,
+                            verbose_name='Name')
+    description = models.TextField(
+        null=True, blank=True, verbose_name='Description',
+        help_text='there may be a more detailed description here'
+    )
+    subscribers = models.ManyToManyField(
+        User, related_name='categories', blank=True,
+        verbose_name='Subscribers',
+        help_text='Hold down "CTRL" or "Command" on Mac, '
+                  'to select more than one.'
+    )
+
+    class Meta:
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
+        ordering = ['name']  # Сортировка
+
+    def subscribe(self):
+        pass
+
+    def get_category(self):
+        return f'{self.name}'
+
+    def __str__(self):
+        return f'{self.name}'
 
 
 class PostCategory(models.Model):
     postThrough = models.ForeignKey(Post, on_delete=models.CASCADE)
-    categoryThrough = models.ForeignKey(Category, on_delete=models.CASCADE)
+    categoryThrough = models.ForeignKey('Category', on_delete=models.CASCADE)
 
     class Meta:
-        verbose_name = 'Категория поста'
-        verbose_name_plural = 'Категории постов'
+        verbose_name = 'Post Category'
+        verbose_name_plural = 'Post Categories'
 
     def __str__(self):
         return f'{self.categoryThrough.name} | {self.postThrough.title}'
@@ -135,8 +139,8 @@ class Comment(models.Model):
         self.save()
 
     class Meta:
-        verbose_name = 'Комментарий'
-        verbose_name_plural = 'Комментарии'
+        verbose_name = 'Comment'
+        verbose_name_plural = 'Comments'
 
     def __str__(self):
         dateCreation = f'{self.dateCreation:%d.%m.%Y}'

@@ -21,9 +21,14 @@ from .forms import *
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
 
+import logging
 
-@cache_page(1 * 1)
+logger = logging.getLogger(__name__)
+
+
+@cache_page(1 * 1)  # Хэширование на 1 сек
 def index(request):
+    logger.info('INFO')
     posts = Post.objects.all()
     # Словарь для передачи данных в шаблон страницы
     context = {

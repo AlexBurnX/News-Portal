@@ -44,6 +44,7 @@ htmlcov/
 .coverage
 .coverage.*
 .cache
+cache_files/
 nosetests.xml
 coverage.xml
 *.cover
@@ -60,6 +61,7 @@ coverage.xml
 local_settings.py
 # db.sqlite3
 db.sqlite3-journal
+/PostgreSQL.py
 
 # Flask stuff:
 instance/
@@ -125,6 +127,7 @@ venv.bak/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+db.json
 
 # Pyre type checker
 .pyre/
