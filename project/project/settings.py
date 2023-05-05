@@ -58,6 +58,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -100,11 +101,11 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 
         # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': 'postgres',
-        # 'USER': 'postgres',
-        # 'PASSWORD': 'admin321',
-        # 'HOST': 'localhost',
-        # 'PORT': '5432',
+        # 'NAME': os.getenv('POSTGRE_NAME'),
+        # 'USER': os.getenv('POSTGRE_USER'),
+        # 'PASSWORD': os.getenv('POSTGRE_PASS'),
+        # 'HOST': os.getenv('POSTGRE_HOST'),
+        # 'PORT': os.getenv('POSTGRE_PORT'),
     },
 }
 
@@ -156,6 +157,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
+]
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale')
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -243,35 +248,17 @@ LOGGING = {
             'format': '[{asctime}] | {levelname} | {message}',
             'style': '{',
         },
-        'console_warning': {
+        'console_warning_AND_mail_admins': {
             'format': '[{asctime}] | {levelname} | {message} | {pathname}',
             'style': '{',
         },
-        'console_error': {
+        'console_error_AND_file_error': {
             'format': '[{asctime}] | {levelname} | {message} | '
                       '{pathname} {exc_info}',
             'style': '{',
         },
-        'console_critical': {
-            'format': '[{asctime}] | {levelname} | {message} | '
-                      '{pathname} {exc_info}',
-            'style': '{',
-        },
-        'file_general': {
+        'file_general_AND_file_security': {
             'format': '[{asctime}] | {levelname} | {module} | {message}',
-            'style': '{',
-        },
-        'file_errors': {
-            'format': '[{asctime}] | {levelname} | {message} | '
-                      '{pathname} {exc_info}',
-            'style': '{',
-        },
-        'file_security': {
-            'format': '[{asctime}] | {levelname} | {module} | {message}',
-            'style': '{',
-        },
-        'mail_admins': {
-            'format': '[{asctime}] | {levelname} | {message} | {pathname}',
             'style': '{',
         },
     },
@@ -287,44 +274,38 @@ LOGGING = {
         'console_warning': {
             'level': 'WARNING',
             'class': 'logging.StreamHandler',
-            'formatter': 'console_warning',
+            'formatter': 'console_warning_AND_mail_admins',
             'filters': ['require_debug_true'],
         },
         'console_error': {
             'level': 'ERROR',
             'class': 'logging.StreamHandler',
-            'formatter': 'console_error',
-            'filters': ['require_debug_true'],
-        },
-        'console_critical': {
-            'level': 'CRITICAL',
-            'class': 'logging.StreamHandler',
-            'formatter': 'console_critical',
+            'formatter': 'console_error_AND_file_error',
             'filters': ['require_debug_true'],
         },
         'file_general': {
             'level': 'INFO',
             'class': 'logging.FileHandler',
-            'formatter': 'file_general',
+            'formatter': 'file_general_AND_file_security',
             'filename': 'general.log',
             'filters': ['require_debug_false'],
         },
         'file_errors': {
             'level': 'ERROR',
             'class': 'logging.FileHandler',
-            'formatter': 'file_errors',
+            'formatter': 'console_error_AND_file_error',
             'filename': 'errors.log',
         },
         'file_security': {
             'level': 'INFO',
             'class': 'logging.FileHandler',
-            'formatter': 'file_security',
+            'formatter': 'file_general_AND_file_security',
             'filename': 'security.log',
         },
         'mail_admins': {
             'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler',
-            'formatter': 'mail_admins',
+            'formatter': 'console_warning_AND_mail_admins',
             'filters': ['require_debug_false'],
         },
     },
@@ -336,7 +317,6 @@ LOGGING = {
                 'console_debug',
                 'console_warning',
                 'console_error',
-                'console_critical',
                 'file_general',
             ],
             'level': 'DEBUG',
