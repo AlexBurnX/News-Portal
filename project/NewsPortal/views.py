@@ -21,20 +21,32 @@ from .forms import *
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
 
+from django.utils.translation import gettext as _
+
 import logging
 
 logger = logging.getLogger(__name__)
 
 
+class Index(View):
+    def get(self, request):
+        string = _('Hello world')
+        return HttpResponse(string)
+
+
 @cache_page(1 * 1)  # Хэширование на 1 сек
 def index(request):
     logger.info('INFO')
+    models = MyModel.objects.all()
+    categories = Category.objects.all()
     posts = Post.objects.all()
     # Словарь для передачи данных в шаблон страницы
     context = {
+        'models': models,
+        'categories': categories,
         'posts': posts,
         'name': 'Microsoft',
-        'title': 'Index'
+        'title': _('Index'),
     }
     return render(request, 'index.html', context=context)
 

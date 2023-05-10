@@ -2,6 +2,7 @@
 {% extends 'flatpages/default.html' %}
 
 <!-- Подключение фильтра для цензурирования плохих слов -->
+{% load i18n %}
 {% load censor_filter %}
 
 <!-- Название Post -->
@@ -22,10 +23,8 @@ Post
 <hr>
 {% if request.user.is_authenticated and perms.NewsPortal.add_post %}
     <div align="left">
-        <a class="btn btn-outline-success btn-sm" href="{% url 'post_edit' pk=post.id %}">
-            Изменить</a>
-        <a class="btn btn-outline-danger btn-sm" href="{% url 'post_delete' post.id %}">
-            Удалить</a>
+        <a class="btn btn-outline-success btn-sm" href="{% url 'post_edit' pk=post.id %}">{% trans "Change" %}</a>
+        <a class="btn btn-outline-danger btn-sm" href="{% url 'post_delete' post.id %}">{% trans "Delete" %}</a>
     </div>
     <br>
 {% endif %}

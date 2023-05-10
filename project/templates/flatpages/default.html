@@ -1,10 +1,12 @@
-<!DOCTYPE html>
+{% load i18n %}
+
 <html lang="en">
     <head>
         {% load static %}
         <!-- <title>Bare - Start Bootstrap Template</title> -->
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
         <!-- Favicon -->
@@ -13,6 +15,7 @@
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
     </head>
     <body>
+
         <!-- Responsive navbar -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
            <div class="container">
@@ -24,42 +27,59 @@
                    <span class="navbar-toggler-icon"></span>
                </button>
                {% load cache %}
-               {% cache 60 menu %}  <!-- Кэш блока на 60 сек -->
+               {% cache 1 menu %}  <!-- Кэш блока на 60 сек -->
                <div class="collapse navbar-collapse" id="navbarResponsive">
                    <ul class="navbar-nav ml-auto">
                        <li class="nav-item active">
-                           <a class="nav-link" href="/">Главная</a>
+                           <a class="nav-link" href="/">{% trans "Home" %}</a>
                        </li>
                        <li class="nav-item">
-                           <a class="nav-link" href="/news/">Новости</a>
+                           <a class="nav-link" href="/news/">{% trans "News" %}</a>
                        </li>
                        <li class="nav-item">
-                           <a class="nav-link" href="/chat/">Чат</a>
+                           <a class="nav-link" href="/chat/">{% trans "Chat" %}</a>
                        </li>
                        <li class="nav-item">
-                           <a class="nav-link" href="/contacts/">Контакты</a>
+                           <a class="nav-link" href="/contacts/">{% trans "Contacts" %}</a>
                        </li>
                        <li class="nav-item">
-                           <a class="nav-link" href="/about/">О нас</a>
+                           <a class="nav-link" href="/about/">{% trans "About" %}</a>
                        </li>
                        <li class="nav-item">
 
                        </li>
                        <li class="nav-item">
-                           <a class="nav-link" style="color:#8CD7FF" href="/news/search/">🔎 Найти</a>
+                           <a class="nav-link" style="color:#8CD7FF" href="/news/search/">🔎 {% trans "Search" %}</a>
                        </li>
                    </ul>
                </div>
                {% endcache %}
                <div align="right">
                    <ul class="navbar-nav ml-auto">
+                           <li class="nav-item">
+                               <div class="language">
+                               <form class="language" action="{% url 'set_language' %}" method="POST"> {% csrf_token %} <!-- Не забываем по csrf_token для POST-запросов -->
+                                   <input type="hidden" name="next" value="{{ redirect_to }}">
+                                   <select name="language" id="">
+                                       {% get_available_languages as LANGUAGES %} <!-- получаем языки -->
+                                       {% get_language_info_list for LANGUAGES as languages %} <!-- Помещаем их в список languages -->
+                                       {% for language in languages %} <!-- Итерируясь по списку, выводим их название на языке пользователя и код -->
+                                       <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected {% endif %} >
+                                           {{ language.name_local }} - {{ language.code }}
+                                       </option>
+                                       {% endfor %}
+                                   </select>
+                                   <input type="submit" value="set">
+                               </form>
+                               </div>
+                           </li>>
                        {% if not request.user.is_authenticated %}
                            <li class="nav-item">
-                               <a class="btn btn-outline-secondary" href="/accounts/signup/">Регистрация</a>
+                               <a class="btn btn-outline-secondary" href="/accounts/signup/">{% trans "Registration" %}</a>
                            </li>
                            <li class="nav-item"></li>>
                            <li class="nav-item">
-                               <a class="btn btn-secondary" href="/accounts/login/">Войти</a>
+                               <a class="btn btn-secondary" href="/accounts/login/">{% trans "Login" %}</a>
                            </li>
                        {% else %}
                            <li class="nav-item">
@@ -67,7 +87,7 @@
                            </li>
                            <li class="nav-item"></li>>
                            <li class="nav-item">
-                               <a class="btn btn-outline-secondary" href="/accounts/logout/">Выйти</a>
+                               <a class="btn btn-outline-secondary" href="/accounts/logout/">{% trans "Logout" %}</a>
                            </li>
                        {% endif %}
                    </ul>

@@ -1,0 +1,144 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-09 19:14+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: .\NewsPortal\models.py:90
+msgctxt "Name"
+msgid "Name"
+msgstr "Название"
+
+#: .\NewsPortal\models.py:91
+msgid "category name"
+msgstr "имя категории"
+
+#: .\NewsPortal\models.py:175
+msgctxt "help text for MyModel model"
+msgid "This is the help text"
+msgstr ""
+
+#: .\NewsPortal\views.py:33
+msgid "Hello world"
+msgstr "Привет мир"
+
+#: .\NewsPortal\views.py:49
+msgid "Index"
+msgstr "Главная"
+
+#: .\templates\account\email\base_message.txt:1
+#, python-format
+msgid "Привет из %(site_name)s!"
+msgstr ""
+
+#: .\templates\account\email\base_message.txt:5
+#, python-format
+msgid ""
+"Спасибо, что используете сайт %(site_name)s - %(site_domain)s\n"
+"\n"
+"\n"
+"Хорошего Вам дня!\n"
+"\n"
+msgstr ""
+
+#: .\templates\account\email\email_confirmation_message.txt:5
+#, python-format
+msgid ""
+"Вы получили это сообщение, потому что пользователь \"%(user_display)s\" "
+"указал этот email при регистрации на сайте %(site_domain)s.\n"
+"\n"
+"Для подтверждения регистрации пройдите по ссылке %(activate_url)s\n"
+"\n"
+msgstr ""
+
+#: .\templates\flatpages\default.html:34
+msgid "Home"
+msgstr "Главная"
+
+#: .\templates\flatpages\default.html:37
+msgid "News"
+msgstr "Новости"
+
+#: .\templates\flatpages\default.html:40
+msgid "Chat"
+msgstr "Чат"
+
+#: .\templates\flatpages\default.html:43
+msgid "Contacts"
+msgstr "Контакты"
+
+#: .\templates\flatpages\default.html:46
+msgid "About"
+msgstr "О нас"
+
+#: .\templates\flatpages\default.html:52
+msgid "Search"
+msgstr "Найти"
+
+#: .\templates\flatpages\default.html:78
+msgid "Registration"
+msgstr "Регистрация"
+
+#: .\templates\flatpages\default.html:82
+msgid "Login"
+msgstr "Войти"
+
+#: .\templates\flatpages\default.html:90
+msgid "Logout"
+msgstr "Выйти"
+
+#: .\templates\news.html:14
+msgid "All news"
+msgstr "Все новости"
+
+#: .\templates\news.html:15
+msgid "Total"
+msgstr "Всего"
+
+#: .\templates\news.html:23
+msgid "Become a new post author"
+msgstr "Стать автором новых постов"
+
+#: .\templates\news.html:31
+msgid "Create post"
+msgstr "Создать пост"
+
+#: .\templates\news.html:46 .\templates\post.html:26
+msgid "Change"
+msgstr "Изменить"
+
+#: .\templates\news.html:50 .\templates\post.html:27
+msgid "Delete"
+msgstr "Удалить"
+
+#: .\templates\news.html:70
+msgid "No news"
+msgstr "Новостей нет"
+
+#: .\templates\post_delete.html:7
+msgid "Delete news"
+msgstr "Удалить новость"
+
+#: .\templates\post_delete.html:13
+msgid "Are you sure you want to delete this news"
+msgstr "Вы уверены, что хотите удалить эту новость"
+
+#: .\templates\post_edit.html:7
+msgid "Change news"
+msgstr "Изменить новость"

@@ -14,6 +14,12 @@ Index
 <h5>для обзора новостей перейдите в раздел "<a href="/news/">News</a>"</h5>
 <hr>
 
+{% for model in models %}
+    <div class="model-class">
+        {{ model.name }}
+    </div>
+{% endfor %}
+
 {% if user.is_authenticated %}
     <h4 style="color: #879496">Hello {{ user }}</h4>
     <br>

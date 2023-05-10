@@ -4,6 +4,7 @@ from django.urls import path, include
 
 # Ссылки первого уровня
 urlpatterns = [
+    path('i18n/', include('django.conf.urls.i18n')),
     path('admin/', admin.site.urls, name='admin'),
     path('', include('NewsPortal.urls')),
     # path('accounts/', include('django.contrib.auth.urls')),

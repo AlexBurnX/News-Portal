@@ -2193,6 +2193,34 @@ progress {
     -webkit-overflow-scrolling: touch;
   }
 }
+
+div.language {
+    /*
+    position: absolute;
+    left: 12px;
+    bottom: 11px;
+    */
+    margin: 0px 50px;
+}
+form.language {
+    padding: 0px 0px;
+    margin: 0px 0px;
+}
+form.language select {
+    padding: 6px 7px;
+    background-color: #212529;
+    color: #909894;
+    border: 1px solid #6C757D;
+    border-radius: 4px;
+}
+form.language input {
+    padding: 6px 7px;
+    background-color: #212529;
+    color: #909894;
+    border: 1px solid #6C757D;
+    border-radius: 4px;
+}
+
 .form-label {
   margin-bottom: 0.5rem;
 }
