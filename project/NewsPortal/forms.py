@@ -1,6 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from .models import Post
+from django.utils.translation import gettext_lazy
 
 
 class PostEditForm(forms.ModelForm):
@@ -20,6 +21,12 @@ class PostEditForm(forms.ModelForm):
             'title',
             'text',
         ]
+        labels = {
+            'postCategory': gettext_lazy('Category'),
+            'categoryType': gettext_lazy('Type'),
+            'title': gettext_lazy('Title'),
+            'text': gettext_lazy('Text'),
+        }
 
     def clean(self):
         cleaned_data = super().clean()
@@ -39,3 +46,19 @@ class PostEditForm(forms.ModelForm):
             )
 
         return cleaned_data
+
+
+class PostSearchForm(forms.ModelForm):
+
+    class Meta:
+        model = Post
+        fields = [
+            'postCategory',
+            # 'dateCreation',
+            'title',
+        ]
+        labels = {
+            'postCategory': gettext_lazy('Category'),
+            # 'dateCreation': gettext_lazy('Creation date greater than'),
+            'title': gettext_lazy('Title contains'),
+        }

@@ -7,7 +7,7 @@ from datetime import datetime
 
 from django.core.cache import cache
 from django.utils.translation import gettext as _
-from django.utils.translation import pgettext_lazy
+from django.utils.translation import gettext_lazy, pgettext_lazy
 
 
 class Author(models.Model):
@@ -31,8 +31,8 @@ class Author(models.Model):
         return f'{self.authorUser}'
 
     class Meta:
-        verbose_name = 'Author'
-        verbose_name_plural = 'Authors'
+        verbose_name = _('Author')
+        verbose_name_plural = _('Authors')
 
 
 class Post(models.Model):
@@ -41,8 +41,8 @@ class Post(models.Model):
     NEWS = 'NW'
     ARTICLE = 'AR'
     CATEGORY_CHOICES = (
-        (NEWS, 'News'),
-        (ARTICLE, 'Article'),
+        (NEWS, gettext_lazy('News')),
+        (ARTICLE, gettext_lazy('Article')),
     )
     categoryType = models.CharField(max_length=2,
                                     choices=CATEGORY_CHOICES,
@@ -80,8 +80,8 @@ class Post(models.Model):
         cache.delete(f'post-{self.pk}')
 
     class Meta:
-        verbose_name = 'Post'
-        verbose_name_plural = 'Posts'
+        verbose_name = _('Post')
+        verbose_name_plural = _('Posts')
 
 
 class Category(models.Model):
@@ -90,19 +90,19 @@ class Category(models.Model):
                                 'Name', 'Name'),
                             help_text=_('category name'))
     description = models.TextField(
-        null=True, blank=True, verbose_name='Description',
-        help_text='there may be a more detailed description here'
+        null=True, blank=True, verbose_name=_('Description'),
+        help_text=_('there may be a more detailed description here')
     )
     subscribers = models.ManyToManyField(
         User, related_name='categories', blank=True,
         verbose_name='Subscribers',
-        help_text='Hold down "CTRL" or "Command" on Mac, '
-                  'to select more than one.'
+        help_text=_('Hold down "CTRL" or "Command" on Mac, '
+                    'to select more than one.')
     )
 
     class Meta:
-        verbose_name = 'Category'
-        verbose_name_plural = 'Categories'
+        verbose_name = _('Category')
+        verbose_name_plural = _('Categories')
         ordering = ['name']  # Сортировка
 
     def subscribe(self):
@@ -120,8 +120,8 @@ class PostCategory(models.Model):
     categoryThrough = models.ForeignKey('Category', on_delete=models.CASCADE)
 
     class Meta:
-        verbose_name = 'Post Category'
-        verbose_name_plural = 'Post Categories'
+        verbose_name = _('Post Category')
+        verbose_name_plural = _('Post Categories')
 
     def __str__(self):
         return f'{self.categoryThrough.name} | {self.postThrough.title}'
@@ -143,8 +143,8 @@ class Comment(models.Model):
         self.save()
 
     class Meta:
-        verbose_name = 'Comment'
-        verbose_name_plural = 'Comments'
+        verbose_name = _('Comment')
+        verbose_name_plural = _('Comments')
 
     def __str__(self):
         dateCreation = f'{self.dateCreation:%d.%m.%Y}'
@@ -171,6 +171,10 @@ class MyModel(models.Model):
         Category,
         on_delete=models.CASCADE,
         related_name='kinds',
-        verbose_name=pgettext_lazy('help text for MyModel model',
-                                   'This is the help text'),
+        verbose_name=pgettext_lazy(_('help text for MyModel model'),
+                                   _('This is the help text')),
     )
+
+    class Meta:
+        verbose_name = _('My Model')
+        verbose_name_plural = _('My Models')

@@ -63,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'NewsPortal.middlewares.TimezoneMiddleware',
 
     # Кэшировать весь сайт целиком
     # 'django.middleware.cache.UpdateCacheMiddleware',
@@ -139,6 +140,7 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'ru'
 TIME_ZONE = 'Europe/Moscow'
 USE_I18N = True
+USE_L10N = True
 USE_TZ = True
 
 LOCALE_PATHS = [
@@ -148,6 +150,7 @@ LANGUAGES = [
     ('en-us', 'English'),
     ('ru', 'Русский'),
 ]
+# MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/

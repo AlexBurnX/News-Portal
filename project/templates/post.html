@@ -23,14 +23,15 @@ Post
 <hr>
 {% if request.user.is_authenticated and perms.NewsPortal.add_post %}
     <div align="left">
-        <a class="btn btn-outline-success btn-sm" href="{% url 'post_edit' pk=post.id %}">{% trans "Change" %}</a>
+        <a class="btn btn-outline-success btn-sm" href="{% url 'post_edit' pk=post.id %}">{% trans "Edit" %}</a>
         <a class="btn btn-outline-danger btn-sm" href="{% url 'post_delete' post.id %}">{% trans "Delete" %}</a>
     </div>
     <br>
 {% endif %}
 
 <div align="left">
-    <p class="text-muted">{{ post.text|censor }}</p>
+    <p class="text-muted" style="white-space:pre-line">{{ post.text|censor }}</p>
 </div>
+<br><br>
 
 {% endblock content %}

@@ -1,4 +1,8 @@
 {% load i18n %}
+{% load tz %}
+
+{% load custom_filters %}
+{% load custom_tags %}
 
 <html lang="en">
     <head>
@@ -13,6 +17,9 @@
         <link rel="icon" type="image/x-icon" href="{% static 'icons/favicon.ico' %}" />
         <!-- Core theme CSS (includes Bootstrap) -->
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+        <style>
+            body {background-color: {% if current_time.hour >= 19 or current_time.hour <= 7 %} #E8F2F7 {% else %} #FFFFFF {% endif %};}
+        </style>
     </head>
     <body>
 
@@ -46,10 +53,27 @@
                            <a class="nav-link" href="/about/">{% trans "About" %}</a>
                        </li>
                        <li class="nav-item">
-
+                           <a class="nav-link" style="color:#8CD7FF" href="/news/search/">🔎 {% trans "Search" %}</a>
                        </li>
                        <li class="nav-item">
-                           <a class="nav-link" style="color:#8CD7FF" href="/news/search/">🔎 {% trans "Search" %}</a>
+                           <div class="timezone_list">
+                               {% get_current_timezone as TIME_ZONE %}
+                               <form class="timezone_list" action="" method="POST">
+                                   {% csrf_token %}
+                                   <label for="timezone"></label>
+                                   <select name="timezone">
+                                       {% for tz in timezones %}
+                                       <option value="{{ tz }}"{% if tz == TIME_ZONE %} selected{% endif %}>{{ tz }}</option>
+                                       {% endfor %}
+                                   </select>
+                                   <input type="submit" value="{% trans 'ok' %}">
+                               </form>
+                           </div>
+                       </li>
+                       <li class="nav-item">
+                           <div class="timezone_info">
+                                ⌚ {{ current_time|show_time:TIME_ZONE }}
+                           </div>
                        </li>
                    </ul>
                </div>
@@ -69,10 +93,11 @@
                                        </option>
                                        {% endfor %}
                                    </select>
-                                   <input type="submit" value="set">
+                                   <input type="submit" value="{% trans 'ok' %}">
                                </form>
                                </div>
                            </li>>
+
                        {% if not request.user.is_authenticated %}
                            <li class="nav-item">
                                <a class="btn btn-outline-secondary" href="/accounts/signup/">{% trans "Registration" %}</a>

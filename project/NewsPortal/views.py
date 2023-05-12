@@ -1,4 +1,3 @@
-import datetime
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.mixins import (
     LoginRequiredMixin, PermissionRequiredMixin
@@ -22,6 +21,9 @@ from django.views.decorators.cache import cache_page
 from django.core.cache import cache
 
 from django.utils.translation import gettext as _
+from django.utils.translation import activate, get_supported_language_variant
+from django.utils import timezone
+import pytz
 
 import logging
 
@@ -29,9 +31,27 @@ logger = logging.getLogger(__name__)
 
 
 class Index(View):
+    logger.info('INFO')
+
     def get(self, request):
-        string = _('Hello world')
-        return HttpResponse(string)
+        models = MyModel.objects.all()
+        categories = Category.objects.all()
+        posts = Post.objects.all()
+        # Словарь для передачи данных в шаблон страницы
+        context = {
+            'title': _('Main'),
+            'models': models,
+            'categories': categories,
+            'posts': posts[::-1],
+            'name': 'Microsoft',
+            'current_time': timezone.localtime(timezone.now()),
+            'timezones': pytz.common_timezones
+        }
+        return HttpResponse(render(request, 'index.html', context=context))
+
+    def post(self, request):
+        request.session['django_timezone'] = request.POST['timezone']
+        return redirect('/')
 
 
 @cache_page(1 * 1)  # Хэширование на 1 сек
@@ -118,9 +138,17 @@ class PostList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['title'] = _('Latest')
         context['is_author'] = self.request.user.groups.filter(
             name='authors').exists()
+        context['current_time'] = timezone.localtime(timezone.now())
+        context['timezones'] = pytz.common_timezones
         return context
+
+    def post(self, request):
+        request.session['django_timezone'] = request.POST['timezone']
+        # return redirect('/news')
+        return redirect(request.META.get('HTTP_REFERER'))
 
 
 class PostDetail(DetailView):
@@ -141,8 +169,20 @@ class PostDetail(DetailView):
 
         return obj
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['current_time'] = timezone.localtime(timezone.now())
+        context['timezones'] = pytz.common_timezones
+        return context
+
+    def post(self, request, **kwargs):
+        request.session['django_timezone'] = request.POST['timezone']
+        # return redirect(f'/news/{self.kwargs["pk"]}')
+        return redirect(request.META.get('HTTP_REFERER'))
+
 
 class PostSearch(ListView):
+    form_class = PostSearchForm
     model = Post
     ordering = '-dateCreation'
     template_name = 'search.html'
@@ -157,7 +197,14 @@ class PostSearch(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['filterset'] = self.filterset
+        context['current_time'] = timezone.localtime(timezone.now())
+        context['timezones'] = pytz.common_timezones
         return context
+
+    def post(self, request, **kwargs):
+        request.session['django_timezone'] = request.POST['timezone']
+        # return redirect(f'/news/{self.kwargs["pk"]}')
+        return redirect(request.META.get('HTTP_REFERER'))
 
 
 class PostCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -171,10 +218,16 @@ class PostCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         form.instance.author = self.request.user.author
         return super().form_valid(form)
 
-    # def form_valid(self, form):
-    #     post = form.save(commit=False)
-    #     post.categoryType = 'Новость'
-    #     return super().form_valid(form)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['current_time'] = timezone.localtime(timezone.now())
+        context['timezones'] = pytz.common_timezones
+        return context
+
+    def post(self, request, **kwargs):
+        request.session['django_timezone'] = request.POST['timezone']
+        # return redirect(f'/news/{self.kwargs["pk"]}')
+        return redirect(request.META.get('HTTP_REFERER'))
 
 
 class PostEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
@@ -183,12 +236,34 @@ class PostEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Post
     template_name = 'post_edit.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['current_time'] = timezone.localtime(timezone.now())
+        context['timezones'] = pytz.common_timezones
+        return context
+
+    def post(self, request, **kwargs):
+        request.session['django_timezone'] = request.POST['timezone']
+        # return redirect(f'/news/{self.kwargs["pk"]}')
+        return redirect(request.META.get('HTTP_REFERER'))
+
 
 class PostDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     permission_required = ('NewsPortal.delete_post',)
     model = Post
     template_name = 'post_delete.html'
     success_url = reverse_lazy('post_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['current_time'] = timezone.localtime(timezone.now())
+        context['timezones'] = pytz.common_timezones
+        return context
+
+    def post(self, request, **kwargs):
+        request.session['django_timezone'] = request.POST['timezone']
+        # return redirect(f'/news/{self.kwargs["pk"]}')
+        return redirect(request.META.get('HTTP_REFERER'))
 
 
 class CategoryListView(PostList):
@@ -208,3 +283,7 @@ class CategoryListView(PostList):
                                        self.category.subscribers.all()
         context['category'] = self.category
         return context
+
+    def post(self, request, **kwargs):
+        request.session['django_timezone'] = request.POST['timezone']
+        return redirect(request.META.get('HTTP_REFERER'))

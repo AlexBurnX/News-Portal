@@ -5,7 +5,8 @@ from django.views.decorators.cache import cache_page
 
 # Ссылки второго уровня
 urlpatterns = [
-    path('', index),
+    # path('', index),
+    path('', Index.as_view(), name='index'),
     path('chat/', PostList.as_view()),
     path('contacts/', PostList.as_view()),
     path('about/', PostList.as_view()),

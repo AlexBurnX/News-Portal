@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-09 19:14+0300\n"
+"POT-Creation-Date: 2023-05-12 12:48+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,6 +20,55 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
+#: .\NewsPortal\forms.py:25 .\NewsPortal\forms.py:61 .\NewsPortal\models.py:104
+msgid "Category"
+msgstr "Категория"
+
+#: .\NewsPortal\forms.py:26
+msgid "Type"
+msgstr "Тип"
+
+#: .\NewsPortal\forms.py:27
+msgid "Title"
+msgstr "Заголовок"
+
+#: .\NewsPortal\forms.py:28
+msgid "Text"
+msgstr "Текст"
+
+#: .\NewsPortal\forms.py:62
+msgid "Creation date greater than"
+msgstr "Дата создания больше чем"
+
+#: .\NewsPortal\forms.py:63
+msgid "Title contains"
+msgstr "Заголовок содержит"
+
+#: .\NewsPortal\models.py:34
+msgid "Author"
+msgstr "Автор"
+
+#: .\NewsPortal\models.py:35
+msgid "Authors"
+msgstr "Авторы"
+
+#: .\NewsPortal\models.py:44 .\templates\flatpages\default.html:44
+#: .\templates\index.html:21 .\templates\news.html:13
+msgid "News"
+msgstr "Новости"
+
+#: .\NewsPortal\models.py:45
+msgid "Article"
+msgstr "Статья"
+
+#: .\NewsPortal\models.py:83
+msgid "Post"
+msgstr "Пост"
+
+#: .\NewsPortal\models.py:84
+msgid "Posts"
+msgstr "Посты"
+
 #: .\NewsPortal\models.py:90
 msgctxt "Name"
 msgid "Name"
@@ -29,18 +78,67 @@ msgstr "Название"
 msgid "category name"
 msgstr "имя категории"
 
-#: .\NewsPortal\models.py:175
-msgctxt "help text for MyModel model"
-msgid "This is the help text"
+#: .\NewsPortal\models.py:93
+msgid "Description"
+msgstr "Описание"
+
+#: .\NewsPortal\models.py:94
+msgid "there may be a more detailed description here"
+msgstr "здесь может быть более подробное описание"
+
+#: .\NewsPortal\models.py:99
+msgid "Hold down \"CTRL\" or \"Command\" on Mac, to select more than one."
 msgstr ""
+"Удерживая нажатой клавишу \"CTRL\" или \"Command\" на Mac, выберите "
+"несколько."
 
-#: .\NewsPortal\views.py:33
-msgid "Hello world"
-msgstr "Привет мир"
+#: .\NewsPortal\models.py:105
+msgid "Categories"
+msgstr "Категории"
 
-#: .\NewsPortal\views.py:49
+#: .\NewsPortal\models.py:123
+msgid "Post Category"
+msgstr "Категория поста"
+
+#: .\NewsPortal\models.py:124
+msgid "Post Categories"
+msgstr "Категории постов"
+
+#: .\NewsPortal\models.py:146
+msgid "Comment"
+msgstr "Комментарий"
+
+#: .\NewsPortal\models.py:147
+msgid "Comments"
+msgstr "Комментарии"
+
+#: .\NewsPortal\models.py:174
+msgid "help text for MyModel model"
+msgstr "текст справки для модели MyModel"
+
+#: .\NewsPortal\models.py:175
+msgid "This is the help text"
+msgstr "Это текст помощи"
+
+#: .\NewsPortal\models.py:179
+msgid "My Model"
+msgstr "Моя модель"
+
+#: .\NewsPortal\models.py:180
+msgid "My Models"
+msgstr "Мои модели"
+
+#: .\NewsPortal\views.py:42
+msgid "Main"
+msgstr "Основная"
+
+#: .\NewsPortal\views.py:69
 msgid "Index"
-msgstr "Главная"
+msgstr "Индекс"
+
+#: .\NewsPortal\views.py:141
+msgid "Latest"
+msgstr "Свежие"
 
 #: .\templates\account\email\base_message.txt:1
 #, python-format
@@ -67,69 +165,97 @@ msgid ""
 "\n"
 msgstr ""
 
-#: .\templates\flatpages\default.html:34
-msgid "Home"
-msgstr "Главная"
+#: .\templates\category_list.html:15
+msgid "All category news"
+msgstr "Все новости категории"
 
-#: .\templates\flatpages\default.html:37
-msgid "News"
-msgstr "Новости"
-
-#: .\templates\flatpages\default.html:40
-msgid "Chat"
-msgstr "Чат"
-
-#: .\templates\flatpages\default.html:43
-msgid "Contacts"
-msgstr "Контакты"
-
-#: .\templates\flatpages\default.html:46
-msgid "About"
-msgstr "О нас"
-
-#: .\templates\flatpages\default.html:52
-msgid "Search"
-msgstr "Найти"
-
-#: .\templates\flatpages\default.html:78
-msgid "Registration"
-msgstr "Регистрация"
-
-#: .\templates\flatpages\default.html:82
-msgid "Login"
-msgstr "Войти"
-
-#: .\templates\flatpages\default.html:90
-msgid "Logout"
-msgstr "Выйти"
-
-#: .\templates\news.html:14
-msgid "All news"
-msgstr "Все новости"
-
-#: .\templates\news.html:15
+#: .\templates\category_list.html:16 .\templates\news.html:16
 msgid "Total"
 msgstr "Всего"
 
-#: .\templates\news.html:23
-msgid "Become a new post author"
-msgstr "Стать автором новых постов"
+#: .\templates\category_list.html:23
+msgid "Subscribe"
+msgstr "Подписаться"
 
-#: .\templates\news.html:31
-msgid "Create post"
-msgstr "Создать пост"
-
-#: .\templates\news.html:46 .\templates\post.html:26
-msgid "Change"
+#: .\templates\category_list.html:37 .\templates\news.html:47
+#: .\templates\post.html:26 .\templates\search.html:29
+msgid "Edit"
 msgstr "Изменить"
 
-#: .\templates\news.html:50 .\templates\post.html:27
+#: .\templates\category_list.html:41 .\templates\news.html:51
+#: .\templates\post.html:27 .\templates\post_delete.html:14
+#: .\templates\search.html:33
 msgid "Delete"
 msgstr "Удалить"
 
-#: .\templates\news.html:70
+#: .\templates\category_list.html:61 .\templates\news.html:71
 msgid "No news"
 msgstr "Новостей нет"
+
+#: .\templates\flatpages\default.html:41 .\templates\index.html:17
+#: .\templates\index.html:20
+msgid "Home"
+msgstr "Главная"
+
+#: .\templates\flatpages\default.html:47
+msgid "Chat"
+msgstr "Чат"
+
+#: .\templates\flatpages\default.html:50
+msgid "Contacts"
+msgstr "Контакты"
+
+#: .\templates\flatpages\default.html:53
+msgid "About"
+msgstr "О нас"
+
+#: .\templates\flatpages\default.html:56 .\templates\search.html:15
+msgid "Search"
+msgstr "Найти"
+
+#: .\templates\flatpages\default.html:69 .\templates\flatpages\default.html:96
+msgid "ok"
+msgstr "ок"
+
+#: .\templates\flatpages\default.html:103
+msgid "Registration"
+msgstr "Регистрация"
+
+#: .\templates\flatpages\default.html:107
+msgid "Login"
+msgstr "Войти"
+
+#: .\templates\flatpages\default.html:115
+msgid "Logout"
+msgstr "Выйти"
+
+#: .\templates\index.html:21
+msgid "for a news overview, go to the section"
+msgstr "для обзора новостей перейдите в раздел"
+
+#: .\templates\index.html:31
+msgid "Hello"
+msgstr "Привет"
+
+#: .\templates\news.html:15
+msgid "All news"
+msgstr "Все новости"
+
+#: .\templates\news.html:24
+msgid "Become a new post author"
+msgstr "Стать автором новых постов"
+
+#: .\templates\news.html:32
+msgid "Create post"
+msgstr "Создать пост"
+
+#: .\templates\post_create.html:7
+msgid "Create news"
+msgstr "Создать пост"
+
+#: .\templates\post_create.html:13 .\templates\post_edit.html:13
+msgid "Save"
+msgstr "Сохранить"
 
 #: .\templates\post_delete.html:7
 msgid "Delete news"
@@ -140,5 +266,18 @@ msgid "Are you sure you want to delete this news"
 msgstr "Вы уверены, что хотите удалить эту новость"
 
 #: .\templates\post_edit.html:7
-msgid "Change news"
+msgid "Edit news"
 msgstr "Изменить новость"
+
+#: .\templates\search.html:10
+msgid "Search news"
+msgstr "Поиск новостей"
+
+#: .\templates\search.html:54
+msgid "Nothing found. Try other search options."
+msgstr ""
+"Ничего не найдено. Попробуйте использовать другие параметры для поиска."
+
+#, python-format
+#~ msgid "Greetings from %(site_name)s!"
+#~ msgstr "Привет из %(site_name)s!"

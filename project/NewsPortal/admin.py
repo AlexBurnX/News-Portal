@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import *
-from modeltranslation.admin import TranslationAdmin
+from modeltranslation.admin import TranslationAdmin, TabbedTranslationAdmin
 
 
 def reset_rating(modeladmin, request, queryset):
@@ -13,7 +13,7 @@ class PostCategoryInline(admin.TabularInline):
     extra = 1
 
 
-class PostAdmin(TranslationAdmin):
+class PostAdmin(TabbedTranslationAdmin):
     model = Post
     list_display = ('title', 'id', 'author', 'likes')
     list_filter = ('rating', 'dateCreation')
@@ -27,7 +27,7 @@ class AuthorAdmin(admin.ModelAdmin):
     list_filter = ('authorUser', 'ratingAuthor')
 
 
-class CategoryAdmin(TranslationAdmin):
+class CategoryAdmin(TabbedTranslationAdmin):
     model = Category
     list_display = ('name',)
     list_filter = ('name', 'subscribers')
@@ -44,7 +44,7 @@ class PostCategoryAdmin(admin.ModelAdmin):
     list_filter = ('categoryThrough',)
 
 
-class MyModelAdmin(TranslationAdmin):
+class MyModelAdmin(TabbedTranslationAdmin):
     model = MyModel
 
 

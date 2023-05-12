@@ -1,5 +1,11 @@
 {% extends 'flatpages/default.html' %}
 
+{% load i18n %}
+{% load tz %}
+
+{% load custom_filters %}
+{% load custom_tags %}
+
 {% block title %}
 Index
 {% endblock title %}
@@ -8,10 +14,11 @@ Index
 
 {% block content %}
 
-<title>Home | {{ title }}</title>
+<title>{% trans "Home" %} | {{ title }}</title>
 <br>
-<h2>Home (index test)</h2>
-<h5>для обзора новостей перейдите в раздел "<a href="/news/">News</a>"</h5>
+
+<h2>{% trans "Home" %} (index test)</h2>
+<h5>{% trans "for a news overview, go to the section" %} "<a href="/news/">{% trans "News" %}</a>"</h5>
 <hr>
 
 {% for model in models %}
@@ -21,7 +28,7 @@ Index
 {% endfor %}
 
 {% if user.is_authenticated %}
-    <h4 style="color: #879496">Hello {{ user }}</h4>
+    <h4 style="color: #879496">{% trans "Hello" %} {{ user }}</h4>
     <br>
 {% endif %}
 
@@ -32,6 +39,6 @@ Index
         <p align="left">{{ x.title }}</p>
     {% endif %}
 {% endfor %}
-<hr>
+<br><br>
 
 {% endblock content %}

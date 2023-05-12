@@ -1,16 +1,18 @@
 {% extends 'flatpages/default.html' %}
 
+{% load i18n %}
+
 {% load censor_filter %}
 {% load custom_tags %}
 
 {% block content %}
 <br>
-<h2>Поиск новостей</h2>
+<h2>{% trans "Search news" %}</h2>
 <hr>
 <div align="center">
     <form action="" method="get">
         {{ filterset.form.as_p }}
-        <input type="submit" value="Найти" />
+        <input type="submit" value="{% trans 'Search' %}" />
     </form>
 </div>
 <hr>
@@ -24,11 +26,11 @@
                 <small class="news-author">({{ post.author }})</small>
                 {% if perms.NewsPortal.change_post %}
                 <span style="color: #DC3545">•</span>
-                <a class="edit-news" href="{% url 'post_edit' pk=post.id %}">Изменить</a>
+                <a class="edit-news" href="{% url 'post_edit' pk=post.id %}">{% trans "Edit" %}</a>
                 {% endif %}
                 {% if perms.NewsPortal.delete_post %}
                 <span style="color: #A7ADB9">|</span>
-                <a class="del-news" href="{% url 'post_delete' post.id %}">Удалить</a>
+                <a class="del-news" href="{% url 'post_delete' post.id %}">{% trans "Delete" %}</a>
                 {% endif %}
             </li>
             <li align="left">
@@ -49,7 +51,7 @@
 
     {% else %}
         <br>
-        <h5 style="color: #879496">Ничего не найдено. Попробуйте использовать другие параметры для поиска.</h5>
+        <h5 style="color: #879496">{% trans "Nothing found. Try other search options." %}</h5>
     {% endif %}
 
     <!-- Пагинация -->

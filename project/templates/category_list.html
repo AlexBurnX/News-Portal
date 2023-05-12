@@ -1,5 +1,7 @@
 {% extends 'flatpages/default.html' %}
 
+{% load i18n %}
+
 {% load censor_filter %}
 {% load custom_tags %}
 
@@ -10,15 +12,15 @@ Category List
 
 {% block content %}
 <br>
-<h2>Все новости категории «{{ category }}»</h2>
-<p class="text-preview">Всего:
+<h2>{% trans "All category news" %} «{{ category }}»</h2>
+<p class="text-preview">{% trans "Total" %}:
     <span style="color: #DC3545">{{ page_obj.paginator.count }}</span>
 </p>
 <hr>
 
     {% if is_not_subscriber and request.user.is_authenticated %}
     <div align="center">
-        <a href="{% url 'subscribe' category.id %}" class="btn btn-success btn-sm">Подписаться</a>
+        <a href="{% url 'subscribe' category.id %}" class="btn btn-success btn-sm">{% trans "Subscribe" %}</a>
     </div>
     {% endif %}
     <br>
@@ -32,11 +34,11 @@ Category List
                 <small class="news-author">({{ post.author }})</small>
                 {% if perms.NewsPortal.change_post %}
                 <span style="color: #DC3545">•</span>
-                <a class="edit-news" href="{% url 'post_edit' pk=post.id %}">Изменить</a>
+                <a class="edit-news" href="{% url 'post_edit' pk=post.id %}">{% trans "Edit" %}</a>
                 {% endif %}
                 {% if perms.NewsPortal.delete_post %}
                 <span style="color: #A7ADB9">|</span>
-                <a class="del-news" href="{% url 'post_delete' post.id %}">Удалить</a>
+                <a class="del-news" href="{% url 'post_delete' post.id %}">{% trans "Delete" %}</a>
                 {% endif %}
             </li>
             <li align="left">
@@ -56,7 +58,7 @@ Category List
         </ol>
 
     {% else %}
-        <h2>Новостей нет!</h2>
+        <h2>{% trans "No news" %}!</h2>
     {% endif %}
 
     <!-- Пагинация -->

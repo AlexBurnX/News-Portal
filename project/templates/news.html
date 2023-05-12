@@ -10,6 +10,7 @@ News
 
 
 {% block content %}
+<title>{% trans "News" %} | {{ title }}</title>
 <br>
 <h2>{% trans "All news" %}</h2>
 <p class="text-preview">{% trans "Total" %}:
@@ -43,7 +44,7 @@ News
                 <small class="news-author">({{ post.author }})</small>
                 {% if perms.NewsPortal.change_post %}
                 <span style="color: #DC3545">•</span>
-                <a class="edit-news" href="{% url 'post_edit' pk=post.id %}">{% trans "Change" %}</a>
+                <a class="edit-news" href="{% url 'post_edit' pk=post.id %}">{% trans "Edit" %}</a>
                 {% endif %}
                 {% if perms.NewsPortal.delete_post %}
                 <span style="color: #A7ADB9">|</span>

@@ -2195,12 +2195,10 @@ progress {
 }
 
 div.language {
-    /*
     position: absolute;
-    left: 12px;
-    bottom: 11px;
-    */
-    margin: 0px 50px;
+    left: 15px;
+    bottom: 9px;
+    margin: 0px 0px;
 }
 form.language {
     padding: 0px 0px;
@@ -2214,9 +2212,47 @@ form.language select {
     border-radius: 4px;
 }
 form.language input {
+    padding: 6px 10px;
+    background-color: #212529;
+    color: #909894;
+    border: 1px solid #6C757D;
+    border-radius: 4px;
+}
+
+div.timezone_list {
+    padding: 0px 0px;
+    margin: 0px 0px 0px 10px;
+}
+form.timezone_list {
+    padding: 0px 0px;
+    margin: 0px 0px;
+}
+form.timezone_list select {
     padding: 6px 7px;
     background-color: #212529;
     color: #909894;
+    border: 1px solid #6C757D;
+    border-radius: 4px;
+}
+form.timezone_list input {
+    padding: 6px 10px;
+    background-color: #212529;
+    color: #909894;
+    border: 1px solid #6C757D;
+    border-radius: 4px;
+}
+
+div.timezone_info {
+    /*
+    position: absolute;
+    top: 55px;
+    left: 20px;
+    font-size: 12px;
+    */
+    padding: 6px 10px;
+    margin: 0px 4px;
+    background-color: #212529;
+    color: #8CD7FF;
     border: 1px solid #6C757D;
     border-radius: 4px;
 }

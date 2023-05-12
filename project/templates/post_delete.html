@@ -11,7 +11,7 @@
     {% csrf_token %}
     <h4>"{{ object.title }}"</h4>
     <p style="color: red">{% trans "Are you sure you want to delete this news" %} ???</p>
-    <input type="submit" value="Delete" />
+    <input type="submit" value="{% trans 'Delete' %}" />
 </form>
 
 {% endblock content %}
