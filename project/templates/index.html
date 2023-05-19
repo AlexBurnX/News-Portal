@@ -32,13 +32,15 @@ Index
     <br>
 {% endif %}
 
-{% for x in posts %}
-    {% if name in x.title %}
-        <p align="left" style="color:red">{{ x.title }}</p>
-    {% else %}
-        <p align="left">{{ x.title }}</p>
-    {% endif %}
-{% endfor %}
+<div align="left">
+    {% for x in posts %}
+        {% if name in x.title %}
+            <div style="color:red">{{ x.title }}</div>
+        {% else %}
+            <div>{{ x.title }}</div>
+        {% endif %}
+    {% endfor %}
+</div>
 <br><br>
 
 {% endblock content %}

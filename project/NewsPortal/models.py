@@ -36,7 +36,9 @@ class Author(models.Model):
 
 
 class Post(models.Model):
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    author = models.ForeignKey(Author,
+                               verbose_name=pgettext_lazy('Author', 'Author'),
+                               on_delete=models.CASCADE)
 
     NEWS = 'NW'
     ARTICLE = 'AR'
@@ -66,10 +68,11 @@ class Post(models.Model):
         self.save()
 
     def preview(self):
-        return f'{self.text[:124]}...'
+        return f'{self.text[:124]}... '
 
     def __str__(self):
-        return f'{self.title.title()} :: {self.text[:40]}...'
+        # return f'{self.title.title()} :: {self.text[:40]}... '
+        return f'{self.title.title()} '
 
     def get_absolute_url(self):
         # return reverse('post_detail', args=[str(self.id)])

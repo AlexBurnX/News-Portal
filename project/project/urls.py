@@ -1,6 +1,13 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import TemplateView
+from NewsPortal.views import *
+from rest_framework import routers
 
+router = routers.DefaultRouter()
+router.register(r'news', NewsViewSet, basename='News')
+router.register(r'articles', ArticlesViewSet, basename='Articles')
+router.register(r'categories', CategoriesViewSet, basename='Categories')
 
 # Ссылки первого уровня
 urlpatterns = [
@@ -10,9 +17,9 @@ urlpatterns = [
     # path('accounts/', include('django.contrib.auth.urls')),
     # path('accounts/', include('accounts.urls')),
     path('accounts/', include('allauth.urls')),
-    # path('chat/', include('NewsPortal.urls')),
-    # path('contacts/', include('NewsPortal.urls')),
-    # path('about/', include('NewsPortal.urls')),
-    # path('news/', include('NewsPortal.urls')),
-    # path('articles/', include('NewsPortal.urls')),
+    path('swagger-ui/', TemplateView.as_view(
+        template_name='swagger-ui.html',
+        extra_context={'schema_url': 'openapi-schema'}
+    ), name='swagger-ui'),
+    path('api/v1/', include(router.urls)),
 ]

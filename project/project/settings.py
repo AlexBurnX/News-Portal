@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.yandex',
     'django_apscheduler',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -108,7 +109,6 @@ DATABASES = {
         # 'PORT': os.getenv('POSTGRE_PORT'),
     },
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -229,6 +229,19 @@ CACHES = {
         'LOCATION': os.path.join(BASE_DIR, 'cache_files'),
         'TIMEOUT': 30,
     }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 10,
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
 }
 
 # LOGGING = {

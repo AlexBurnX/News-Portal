@@ -1,3 +1,4 @@
+from django.forms import model_to_dict
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.mixins import (
     LoginRequiredMixin, PermissionRequiredMixin
@@ -13,6 +14,13 @@ from django.db.models import Exists, OuterRef
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.models import Group
 
+from rest_framework import generics, viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.views import APIView
+from .serializers import *
+
 from .filters import PostFilter
 from .models import *
 from .forms import *
@@ -24,6 +32,7 @@ from django.utils.translation import gettext as _
 from django.utils.translation import activate, get_supported_language_variant
 from django.utils import timezone
 import pytz
+import json
 
 import logging
 
@@ -287,3 +296,33 @@ class CategoryListView(PostList):
     def post(self, request, **kwargs):
         request.session['django_timezone'] = request.POST['timezone']
         return redirect(request.META.get('HTTP_REFERER'))
+
+
+# ========================= API =========================
+
+class NewsViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticatedOrReadOnly, ]
+    queryset = Post.objects.filter(categoryType='NW')
+    serializer_class = NewsSerializer
+
+    @action(methods=['get'], detail=True)
+    def category(self, request, pk=None):
+        category = Category.objects.get(pk=pk)
+        return Response({'category': category.name})
+
+
+class ArticlesViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticatedOrReadOnly, ]
+    queryset = Post.objects.filter(categoryType='AR')
+    serializer_class = ArticlesSerializer
+
+    @action(methods=['get'], detail=True)
+    def category(self, request, pk=None):
+        category = Category.objects.get(pk=pk)
+        return Response({'category': category.name})
+
+
+class CategoriesViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticatedOrReadOnly, ]
+    queryset = Category.objects.all()
+    serializer_class = CategoriesSerializer
