@@ -1,4 +1,3 @@
-from django.forms import model_to_dict
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.mixins import (
     LoginRequiredMixin, PermissionRequiredMixin
@@ -233,10 +232,10 @@ class PostCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         context['timezones'] = pytz.common_timezones
         return context
 
-    def post(self, request, **kwargs):
-        request.session['django_timezone'] = request.POST['timezone']
-        # return redirect(f'/news/{self.kwargs["pk"]}')
-        return redirect(request.META.get('HTTP_REFERER'))
+    # def post(self, request, **kwargs):
+    #     request.session['django_timezone'] = request.POST['timezone']
+    #     # return redirect(f'/news/{self.kwargs["pk"]}')
+    #     return redirect(request.META.get('HTTP_REFERER'))
 
 
 class PostEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
@@ -251,10 +250,10 @@ class PostEdit(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
         context['timezones'] = pytz.common_timezones
         return context
 
-    def post(self, request, **kwargs):
-        request.session['django_timezone'] = request.POST['timezone']
-        # return redirect(f'/news/{self.kwargs["pk"]}')
-        return redirect(request.META.get('HTTP_REFERER'))
+    # def post(self, request, **kwargs):
+    #     request.session['django_timezone'] = request.POST['timezone']
+    #     # return redirect(f'/news/{self.kwargs["pk"]}')
+    #     return redirect(request.META.get('HTTP_REFERER'))
 
 
 class PostDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
@@ -269,10 +268,10 @@ class PostDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
         context['timezones'] = pytz.common_timezones
         return context
 
-    def post(self, request, **kwargs):
-        request.session['django_timezone'] = request.POST['timezone']
-        # return redirect(f'/news/{self.kwargs["pk"]}')
-        return redirect(request.META.get('HTTP_REFERER'))
+    # def post(self, request, **kwargs):
+    #     request.session['django_timezone'] = request.POST['timezone']
+    #     # return redirect(f'/news/{self.kwargs["pk"]}')
+    #     return redirect(request.META.get('HTTP_REFERER'))
 
 
 class CategoryListView(PostList):
